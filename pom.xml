@@ -34,7 +34,7 @@ SOFTWARE.
   <version>1.0-SNAPSHOT</version>
   <name>cmig</name>
   <description>
-    Cassandra Schema Migration
+    Apache Cassandra Schema Migration
   </description>
   <inceptionYear>2023</inceptionYear>
   <url>https://github.com/eo-cqrs/cmig</url>
