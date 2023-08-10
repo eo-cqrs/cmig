@@ -27,7 +27,7 @@ import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
 
 /**
- * Master.
+ * Master files.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
