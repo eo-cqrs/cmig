@@ -20,52 +20,60 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig;
+package io.github.eocqrs.cmig.session;
 
-import io.github.eocqrs.cmig.session.Simple;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.Session;
+
+import java.io.IOException;
 
 /**
- * Test suite for {@link Master}.
+ * Simple Cassandra.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class MasterTest {
+public final class Simple implements Cassandra {
 
-  @Test
-  @Disabled
-  void readsShaInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
-      new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
-      )
+  /**
+   * Cluster.
+   */
+  private final Cluster cluster;
+
+  /**
+   * Ctor.
+   *
+   * @param cl Cluster
+   */
+  public Simple(final Cluster cl) {
+    this.cluster = cl;
+  }
+
+  /**
+   * Ctor.
+   *
+   * @param loc  Location, a.k.a host
+   * @param port Port
+   */
+  public Simple(
+    final String loc,
+    final int port
+  ) {
+    this(
+      Cluster.builder()
+        .addContactPoint(loc)
+        .withPort(port)
+        .build()
     );
   }
 
-  /*
-   * @todo #11:60m/DEV cassandra instance in tests
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value(),
-      "Applies does not throw exception"
-    );
+  @Override
+  public Session value() throws Exception {
+    return this.cluster.connect();
+  }
+
+  @Override
+  public void close() throws IOException {
+    this.cluster.close();
   }
 }

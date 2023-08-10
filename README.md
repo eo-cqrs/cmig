@@ -34,7 +34,23 @@ Maven:
 </dependency>
 ```
 
-TBD..
+In your resources directory you should create a `cmig` directory,
+and inside it new XML file, for instance `master.xml`:
+```xml
+<files>
+  <file id="1" author="h1alexbel">001-initial.cql</file>
+  <file id="2" author="somebodyelse">002-clicks-keyspace.cql</file>
+</files>
+```
+
+**Inside all the files you must have only one operation**.
+Decompose files for better traceability.
+
+In Java, all you need is to create Cassandra and Master objects:
+```java
+final Cassandra cassandra = new Simple("localhost", 9042);
+final String sha = new Master("master.xml", cassandra).value();
+```
 
 ## How to Contribute
 

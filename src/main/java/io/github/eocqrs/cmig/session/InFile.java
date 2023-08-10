@@ -20,52 +20,49 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig;
+package io.github.eocqrs.cmig.session;
 
-import io.github.eocqrs.cmig.session.Simple;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.cactoos.io.ResourceOf;
+import org.cactoos.text.TextOf;
 
 /**
- * Test suite for {@link Master}.
+ * CQL stored in file.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class MasterTest {
+public final class InFile implements Cql {
 
-  @Test
-  @Disabled
-  void readsShaInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
-      new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
-      )
-    );
+  /**
+   * Cassandra.
+   */
+  private final Cassandra cassandra;
+  /**
+   * File name.
+   */
+  private final String name;
+
+  /**
+   * Ctor.
+   *
+   * @param cs Cassandra
+   * @param nm File name
+   */
+  public InFile(
+    final Cassandra cs,
+    final String nm
+  ) {
+    this.cassandra = cs;
+    this.name = nm;
   }
 
-  /*
-   * @todo #11:60m/DEV cassandra instance in tests
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value(),
-      "Applies does not throw exception"
-    );
+  @Override
+  public void apply() throws Exception {
+    this.cassandra.value()
+      .execute(
+        new TextOf(
+          new ResourceOf(this.name)
+        ).asString()
+      );
   }
 }

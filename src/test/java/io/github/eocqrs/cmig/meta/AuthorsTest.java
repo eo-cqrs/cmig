@@ -20,52 +20,32 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig;
+package io.github.eocqrs.cmig.meta;
 
-import io.github.eocqrs.cmig.session.Simple;
+import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test suite for {@link Master}.
+ * Test suite for {@link Authors}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class MasterTest {
+final class AuthorsTest {
 
   @Test
-  @Disabled
-  void readsShaInRightFormat() throws Exception {
+  void readsAuthorInfoInRightFormat() throws Exception {
     MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
+      "Authors in right format",
+      new Authors("cmig/master.xml").value(),
       new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
+        new ListOf<>(
+          "h1alexbel",
+          "test"
+        )
       )
-    );
-  }
-
-  /*
-   * @todo #11:60m/DEV cassandra instance in tests
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value(),
-      "Applies does not throw exception"
     );
   }
 }
