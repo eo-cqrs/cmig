@@ -20,51 +20,54 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig;
+package io.github.eocqrs.cmig.meta;
 
-import io.github.eocqrs.cmig.session.Simple;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import com.jcabi.xml.XML;
+import com.jcabi.xml.XMLDocument;
+import org.cactoos.io.ResourceOf;
+
+import java.util.List;
 
 /**
- * Test suite for {@link Master}.
+ * File authors.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class MasterTest {
+public final class Authors implements XpathList {
 
-  @Test
-  @Disabled
-  void readsShaInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
-      new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
+  /**
+   * XML.
+   */
+  private final XML xml;
+
+  /**
+   * Ctor.
+   *
+   * @param doc XML
+   */
+  public Authors(final XML doc) {
+    this.xml = doc;
+  }
+
+  /**
+   * Ctor.
+   *
+   * @param name File name
+   * @throws Exception if something went wrong
+   */
+  public Authors(final String name) throws Exception {
+    this(
+      new XMLDocument(
+        new ResourceOf(
+          name
+        ).stream()
       )
     );
   }
 
-  /*
-   * @todo #11:60m/DEV cassandra instance in tests
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value()
-    );
+  @Override
+  public List<String> value() throws Exception {
+    return this.xml.xpath("/files/file/@author");
   }
 }

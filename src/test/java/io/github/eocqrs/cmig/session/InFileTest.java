@@ -20,51 +20,28 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig;
+package io.github.eocqrs.cmig.session;
 
-import io.github.eocqrs.cmig.session.Simple;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test suite for {@link Master}.
+ * Test suite for {@link InFile}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class MasterTest {
+final class InFileTest {
 
   @Test
   @Disabled
-  void readsShaInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
-      new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
-      )
-    );
-  }
-
-  /*
-   * @todo #11:60m/DEV cassandra instance in tests
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value()
-    );
+  void appliesInRightFormat() throws Exception {
+    new InFile(
+      new Simple(
+        "localhost",
+        9042
+      ),
+      "cmig/002-queries-table.cql"
+    ).apply();
   }
 }

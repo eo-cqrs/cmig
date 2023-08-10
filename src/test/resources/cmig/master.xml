@@ -23,7 +23,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 -->
 <files>
-  <file id="1" author="h1alexbel">
-    001-initial.cql
-  </file>
+  <file id="1" author="h1alexbel">001-initial-keyspace.cql</file>
+  <file id="2" author="test">002-queries-table.cql</file>
 </files>

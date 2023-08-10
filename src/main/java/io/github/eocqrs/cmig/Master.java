@@ -22,7 +22,11 @@
 
 package io.github.eocqrs.cmig;
 
+import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
+import io.github.eocqrs.cmig.meta.Names;
+import io.github.eocqrs.cmig.session.Cassandra;
+import io.github.eocqrs.cmig.session.InFile;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
 
@@ -35,35 +39,63 @@ import org.cactoos.io.ResourceOf;
 public final class Master implements Scalar<String> {
 
   /**
-   * Directory.
+   * XML.
    */
-  private final String dir;
+  private final XML xml;
   /**
-   * Master file name.
+   * Cassandra.
    */
-  private final String name;
+  private final Cassandra cassandra;
 
   /**
    * Ctor.
    *
-   * @param dr Dir name
-   * @param nm File name
+   * @param doc XML
+   * @param cs  Cassandra
    */
-  public Master(final String dr, final String nm) {
-    this.dir = dr;
-    this.name = nm;
+  public Master(final XML doc, final Cassandra cs) {
+    this.xml = doc;
+    this.cassandra = cs;
+  }
+
+  /**
+   * Ctor.
+   *
+   * @param nm File name
+   * @param cs Cassandra
+   * @throws Exception if something went wrong
+   */
+  public Master(
+    final String nm,
+    final Cassandra cs
+  ) throws Exception {
+    this(
+      new XMLDocument(
+        new ResourceOf(
+          "cmig/%s"
+            .formatted(nm)
+        ).stream()
+      ),
+      cs
+    );
   }
 
   @Override
   public String value() throws Exception {
-    return new XMLDocument(
-      new ResourceOf(
-        "%s/%s".formatted(
-          this.dir,
-          this.name
-        )
-      ).stream()
-    ).nodes("files")
-      .toString();
+    new Names(this.xml).value()
+      .forEach(file -> {
+          try {
+            new InFile(
+              this.cassandra, "cmig/%s".formatted(file)
+            ).apply();
+          } catch (final Exception ex) {
+            throw new IllegalStateException(
+              "Schema migration cannot be executed",
+              ex
+            );
+          }
+        }
+      );
+    return "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9";
   }
 }
