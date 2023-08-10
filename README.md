@@ -1,0 +1,2 @@
+# cmig
+Cassandra Schema Migration
