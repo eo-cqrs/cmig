@@ -22,6 +22,8 @@
 
 package io.github.eocqrs.cmig.session;
 
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -36,12 +38,16 @@ final class InFileTest {
   @Test
   @Disabled
   void appliesInRightFormat() throws Exception {
-    new InFile(
-      new Simple(
-        "localhost",
-        9042
-      ),
-      "cmig/002-queries-table.cql"
-    ).apply();
+    Assertions.assertDoesNotThrow(
+      () ->
+        new InFile(
+          new Simple(
+            "localhost",
+            9042
+          ),
+          "cmig/002-queries-table.cql"
+        ).apply(),
+      "Applies does not throw exception"
+    );
   }
 }

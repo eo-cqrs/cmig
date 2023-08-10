@@ -64,7 +64,8 @@ final class MasterTest {
         new Master(
           "master.xml",
           new Simple("localhost", 9042)
-        ).value()
+        ).value(),
+      "Applies does not throw exception"
     );
   }
 }
