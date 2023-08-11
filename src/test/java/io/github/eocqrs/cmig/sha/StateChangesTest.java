@@ -31,16 +31,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 /**
- * Test suite for {@link Contents}.
+ * Test suite for {@link StateChanges}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class ContentsTest {
+final class StateChangesTest {
 
   @Test
   void readsContentsInRightFormat() throws Exception {
-    final List<String> value = new Contents(
+    final List<String> value = new StateChanges(
       new Names(
         "cmig/master.xml", "1"
       ),

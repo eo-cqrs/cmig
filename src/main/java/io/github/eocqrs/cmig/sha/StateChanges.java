@@ -31,12 +31,12 @@ import org.cactoos.text.TextOf;
 import java.util.List;
 
 /**
- * Contents in State.
+ * Changes inside State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Contents implements Scalar<List<String>> {
+public final class StateChanges implements Scalar<List<String>> {
 
   /**
    * XPATH lists.
@@ -53,7 +53,7 @@ public final class Contents implements Scalar<List<String>> {
    * @param lst XPATH list
    * @param cmg CMIG directory
    */
-  public Contents(final XpathList lst, final String cmg) {
+  public StateChanges(final XpathList lst, final String cmg) {
     this.list = lst;
     this.cmig = cmg;
   }
