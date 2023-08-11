@@ -69,7 +69,7 @@ public final class Sha implements Text {
 
   @Override
   public String asString() throws Exception {
-    final List<String> contents = new Contents(
+    final List<String> contents = new StateChanges(
       new Names(
         this.master,
         this.id
