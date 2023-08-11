@@ -22,7 +22,6 @@
 
 package io.github.eocqrs.cmig.session;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

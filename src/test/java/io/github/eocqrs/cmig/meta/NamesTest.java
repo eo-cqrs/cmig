@@ -45,7 +45,8 @@ final class NamesTest {
         new XMLDocument(
           new ResourceOf("cmig/master.xml")
             .stream()
-        )
+        ),
+        "1"
       ).value(),
       new IsEqual<>(
         new ListOf<>(

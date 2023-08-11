@@ -20,68 +20,61 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
+import io.github.eocqrs.cmig.meta.XpathList;
+import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
+import org.cactoos.list.ListOf;
+import org.cactoos.text.TextOf;
 
 import java.util.List;
 
 /**
- * File names of State.
+ * Contents in State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Names implements XpathList {
+public final class Contents implements Scalar<List<String>> {
 
   /**
-   * XML.
+   * XPATH lists.
    */
-  private final XML xml;
+  private final XpathList list;
   /**
-   * State ID.
+   * CMIG directory.
    */
-  private final String id;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Names(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
+  private final String cmig;
 
   /**
    * Ctor.
    *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
+   * @param lst XPATH list
+   * @param cmg CMIG directory
    */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
+  public Contents(final XpathList lst, final String cmg) {
+    this.list = lst;
+    this.cmig = cmg;
   }
 
   @Override
   public List<String> value() throws Exception {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
-        )
-    );
+    final List<String> contents = new ListOf<>();
+    final List<String> files = this.list.value();
+    for (final String file : files) {
+      final String content =
+        new TextOf(
+          new ResourceOf(
+            "%s/%s"
+              .formatted(
+                this.cmig,
+                file
+              )
+          )
+        ).asString();
+      contents.add(content);
+    }
+    return contents;
   }
 }

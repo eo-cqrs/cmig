@@ -22,7 +22,6 @@
 
 package io.github.eocqrs.cmig.meta;
 
-import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
@@ -39,12 +38,12 @@ final class AuthorsTest {
   void readsAuthorInfoInRightFormat() throws Exception {
     MatcherAssert.assertThat(
       "Authors in right format",
-      new Authors("cmig/master.xml").value(),
+      new Authors(
+        "cmig/master.xml",
+        "1"
+      ).value(),
       new IsEqual<>(
-        new ListOf<>(
-          "h1alexbel",
-          "test"
-        )
+        "test"
       )
     );
   }

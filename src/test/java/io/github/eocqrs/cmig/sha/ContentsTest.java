@@ -20,68 +20,50 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
+import io.github.eocqrs.cmig.meta.Names;
+import org.cactoos.list.ListOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 /**
- * File names of State.
+ * Test suite for {@link Contents}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Names implements XpathList {
+final class ContentsTest {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
-  /**
-   * State ID.
-   */
-  private final String id;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Names(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
+  @Test
+  void readsContentsInRightFormat() throws Exception {
+    final List<String> value = new Contents(
+      new Names(
+        "cmig/master.xml", "1"
       ),
-      id
-    );
-  }
-
-  @Override
-  public List<String> value() throws Exception {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
+      "cmig"
+    ).value();
+    MatcherAssert.assertThat(
+      "Contents in right format",
+      value,
+      new IsEqual<>(
+        new ListOf<>(
+          "CREATE KEYSPACE queryDatasets\n" +
+          "    WITH REPLICATION = {\n" +
+          "        'class' : 'NetworkTopologyStrategy',\n" +
+          "        'datacenter1' : 1\n" +
+          "        };",
+          "CREATE TABLE querydatasets.queries\n" +
+          "(\n" +
+          "    id    UUID PRIMARY KEY,\n" +
+          "    query TEXT,\n" +
+          "    seen  TIMESTAMP\n" +
+          ");"
         )
+      )
     );
   }
 }

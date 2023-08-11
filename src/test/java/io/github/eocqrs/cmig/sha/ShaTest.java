@@ -20,68 +20,32 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
-
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Test;
 
 /**
- * File names of State.
+ * Test suite for {@link Sha}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Names implements XpathList {
+final class ShaTest {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
-  /**
-   * State ID.
-   */
-  private final String id;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Names(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
-  }
-
-  @Override
-  public List<String> value() throws Exception {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
-        )
+  @Test
+  void readsShaInRightFormat() throws Exception {
+    MatcherAssert.assertThat(
+      "SHA 256 in right format",
+      new Sha(
+        "1",
+        "cmig/master.xml",
+        "cmig"
+      ).value(),
+      new IsEqual<>(
+        "bb2e7331978b0457bcb9f64843e6d4f70ec6a517bffc1366832faed0bdc3bb87"
+      )
     );
   }
 }

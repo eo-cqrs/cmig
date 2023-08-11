@@ -20,32 +20,21 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig;
 
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
+import org.cactoos.Scalar;
+/*
+ * @todo #32:30m/DEV design State interface
+ */
 
 /**
- * Test suite for {@link Ids}.
+ * State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class IdsTest {
+public interface State extends Scalar<String> {
 
-  @Test
-  void readsIdsInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "IDs in right format",
-      new Ids("cmig/master.xml").value(),
-      new IsEqual<>(
-        new ListOf<>(
-          "1",
-          "2"
-        )
-      )
-    );
-  }
+  @Override
+  String value() throws Exception;
 }

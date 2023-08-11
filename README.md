@@ -37,10 +37,19 @@ Maven:
 In your resources directory you should create a `cmig` directory,
 and inside it new XML file, for instance `master.xml`:
 ```xml
-<files>
-  <file id="1" author="h1alexbel">001-initial.cql</file>
-  <file id="2" author="somebodyelse">002-clicks-keyspace.cql</file>
-</files>
+<states>
+  <changeState id="1" author="h1alexbel">
+    <files>
+      <file path="001-initial-keyspace.cql"/>
+      <file path="002-queries-table.cql"/>
+    </files>
+  </changeState>
+  <changeState id="2" author="h1alexbel">
+    <files>
+      <file path="003-stuff.cql"/>
+    </files>
+  </changeState>
+</states>
 ```
 
 **Inside all the files you must have only one operation**.
