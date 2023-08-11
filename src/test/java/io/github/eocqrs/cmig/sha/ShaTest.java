@@ -42,7 +42,7 @@ final class ShaTest {
         "1",
         "cmig/master.xml",
         "cmig"
-      ).value(),
+      ).asString(),
       new IsEqual<>(
         "bb2e7331978b0457bcb9f64843e6d4f70ec6a517bffc1366832faed0bdc3bb87"
       )

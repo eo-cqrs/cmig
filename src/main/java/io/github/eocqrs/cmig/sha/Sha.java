@@ -23,7 +23,7 @@
 package io.github.eocqrs.cmig.sha;
 
 import io.github.eocqrs.cmig.meta.Names;
-import org.cactoos.Scalar;
+import org.cactoos.Text;
 import org.cactoos.bytes.Sha256DigestOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.HexOf;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author Aliaksei Bialiauski (0.0.0)
  * @since 0.0.0
  */
-public final class Sha implements Scalar<String> {
+public final class Sha implements Text {
 
   /**
    * State ID.
@@ -68,7 +68,7 @@ public final class Sha implements Scalar<String> {
   }
 
   @Override
-  public String value() throws Exception {
+  public String asString() throws Exception {
     final List<String> contents = new Contents(
       new Names(
         this.master,
