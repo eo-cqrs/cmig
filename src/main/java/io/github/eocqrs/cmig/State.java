@@ -20,54 +20,21 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
-
-import java.util.List;
+import org.cactoos.Scalar;
+/*
+ * @todo #32:30m/DEV design State interface
+ */
 
 /**
- * File IDs.
+ * State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Ids implements XpathList {
-
-  /**
-   * XML.
-   */
-  private final XML xml;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   */
-  public Ids(final XML doc) {
-    this.xml = doc;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @throws Exception if something went wrong
-   */
-  public Ids(final String name) throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      )
-    );
-  }
+public interface State extends Scalar<String> {
 
   @Override
-  public List<String> value() throws Exception {
-    return this.xml.xpath("/files/file/@id");
-  }
+  String value() throws Exception;
 }

@@ -24,17 +24,16 @@ package io.github.eocqrs.cmig.meta;
 
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
+import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
 
-import java.util.List;
-
 /**
- * File names of State.
+ * Author of State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Names implements XpathList {
+public final class Author implements Scalar<String> {
 
   /**
    * XML.
@@ -51,7 +50,7 @@ public final class Names implements XpathList {
    * @param doc XML
    * @param id  State ID
    */
-  public Names(final XML doc, final String id) {
+  public Author(final XML doc, final String id) {
     this.xml = doc;
     this.id = id;
   }
@@ -63,7 +62,7 @@ public final class Names implements XpathList {
    * @param id   State ID
    * @throws Exception if something went wrong
    */
-  public Names(final String name, final String id)
+  public Author(final String name, final String id)
     throws Exception {
     this(
       new XMLDocument(
@@ -76,12 +75,12 @@ public final class Names implements XpathList {
   }
 
   @Override
-  public List<String> value() throws Exception {
+  public String value() throws Exception {
     return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
+      "/states/changeState[@id='%s']/@author"
         .formatted(
           this.id
         )
-    );
+    ).get(0);
   }
 }

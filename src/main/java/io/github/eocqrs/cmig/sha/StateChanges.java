@@ -20,32 +20,61 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
+import io.github.eocqrs.cmig.meta.XpathList;
+import org.cactoos.Scalar;
+import org.cactoos.io.ResourceOf;
 import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
+import org.cactoos.text.TextOf;
+
+import java.util.List;
 
 /**
- * Test suite for {@link Ids}.
+ * Changes inside State.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class IdsTest {
+public final class StateChanges implements Scalar<List<String>> {
 
-  @Test
-  void readsIdsInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "IDs in right format",
-      new Ids("cmig/master.xml").value(),
-      new IsEqual<>(
-        new ListOf<>(
-          "1",
-          "2"
-        )
-      )
-    );
+  /**
+   * XPATH lists.
+   */
+  private final XpathList list;
+  /**
+   * CMIG directory.
+   */
+  private final String cmig;
+
+  /**
+   * Ctor.
+   *
+   * @param lst XPATH list
+   * @param cmg CMIG directory
+   */
+  public StateChanges(final XpathList lst, final String cmg) {
+    this.list = lst;
+    this.cmig = cmg;
+  }
+
+  @Override
+  public List<String> value() throws Exception {
+    final List<String> contents = new ListOf<>();
+    final List<String> files = this.list.value();
+    for (final String file : files) {
+      final String content =
+        new TextOf(
+          new ResourceOf(
+            "%s/%s"
+              .formatted(
+                this.cmig,
+                file
+              )
+          )
+        ).asString();
+      contents.add(content);
+    }
+    return contents;
   }
 }

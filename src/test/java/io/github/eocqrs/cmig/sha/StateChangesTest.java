@@ -20,30 +20,48 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
+import io.github.eocqrs.cmig.meta.Names;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 /**
- * Test suite for {@link Authors}.
+ * Test suite for {@link StateChanges}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class AuthorsTest {
+final class StateChangesTest {
 
   @Test
-  void readsAuthorInfoInRightFormat() throws Exception {
+  void readsContentsInRightFormat() throws Exception {
+    final List<String> value = new StateChanges(
+      new Names(
+        "cmig/master.xml", "1"
+      ),
+      "cmig"
+    ).value();
     MatcherAssert.assertThat(
-      "Authors in right format",
-      new Authors("cmig/master.xml").value(),
+      "Contents in right format",
+      value,
       new IsEqual<>(
         new ListOf<>(
-          "h1alexbel",
-          "test"
+          "CREATE KEYSPACE queryDatasets\n" +
+          "    WITH REPLICATION = {\n" +
+          "        'class' : 'NetworkTopologyStrategy',\n" +
+          "        'datacenter1' : 1\n" +
+          "        };",
+          "CREATE TABLE querydatasets.queries\n" +
+          "(\n" +
+          "    id    UUID PRIMARY KEY,\n" +
+          "    query TEXT,\n" +
+          "    seen  TIMESTAMP\n" +
+          ");"
         )
       )
     );

@@ -20,54 +20,10 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
-
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
-
-import java.util.List;
-
 /**
- * File authors.
+ * SHA.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Authors implements XpathList {
-
-  /**
-   * XML.
-   */
-  private final XML xml;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   */
-  public Authors(final XML doc) {
-    this.xml = doc;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @throws Exception if something went wrong
-   */
-  public Authors(final String name) throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      )
-    );
-  }
-
-  @Override
-  public List<String> value() throws Exception {
-    return this.xml.xpath("/files/file/@author");
-  }
-}
+package io.github.eocqrs.cmig.sha;

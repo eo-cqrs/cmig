@@ -20,68 +20,68 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.meta;
+package io.github.eocqrs.cmig.sha;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
+import io.github.eocqrs.cmig.meta.Names;
+import org.cactoos.Text;
+import org.cactoos.bytes.Sha256DigestOf;
+import org.cactoos.io.InputOf;
+import org.cactoos.text.HexOf;
 
 import java.util.List;
 
 /**
- * File names of State.
+ * SHA256 for State.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * @author Aliaksei Bialiauski (0.0.0)
  * @since 0.0.0
  */
-public final class Names implements XpathList {
+public final class Sha implements Text {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
   /**
    * State ID.
    */
   private final String id;
+  /**
+   * Master file.
+   */
+  private final String master;
+  /**
+   * CMIG directory.
+   */
+  private final String cmig;
 
   /**
    * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
+   * @param id State ID
+   * @param mst Master file
+   * @param cmg CMIG directory
    */
-  public Names(final XML doc, final String id) {
-    this.xml = doc;
+  public Sha(
+    final String id,
+    final String mst,
+    final String cmg
+  ) {
     this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
+    this.master = mst;
+    this.cmig = cmg;
   }
 
   @Override
-  public List<String> value() throws Exception {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
+  public String asString() throws Exception {
+    final List<String> contents = new StateChanges(
+      new Names(
+        this.master,
+        this.id
+      ),
+      this.cmig
+    ).value();
+    return new HexOf(
+      new Sha256DigestOf(
+        new InputOf(
+          contents.toString()
         )
-    );
+      )
+    ).asString();
   }
 }

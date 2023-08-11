@@ -29,9 +29,13 @@ import io.github.eocqrs.cmig.session.Cassandra;
 import io.github.eocqrs.cmig.session.InFile;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
+/*
+ * @todo #32:45m/DEV Master is set of states inside XML document.
+ */
+
 
 /**
- * Master files.
+ * Set of States.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
@@ -53,7 +57,10 @@ public final class Master implements Scalar<String> {
    * @param doc XML
    * @param cs  Cassandra
    */
-  public Master(final XML doc, final Cassandra cs) {
+  public Master(
+    final XML doc,
+    final Cassandra cs
+  ) {
     this.xml = doc;
     this.cassandra = cs;
   }
@@ -82,7 +89,7 @@ public final class Master implements Scalar<String> {
 
   @Override
   public String value() throws Exception {
-    new Names(this.xml).value()
+    new Names(this.xml, "").value()
       .forEach(file -> {
           try {
             new InFile(
