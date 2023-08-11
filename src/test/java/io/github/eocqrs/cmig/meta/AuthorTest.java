@@ -22,65 +22,29 @@
 
 package io.github.eocqrs.cmig.meta;
 
-import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.Scalar;
-import org.cactoos.io.ResourceOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Test;
 
 /**
- * Authors of State.
+ * Test suite for {@link Author}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Authors implements Scalar<String> {
+final class AuthorTest {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
-  /**
-   * State ID.
-   */
-  private final String id;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Authors(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Authors(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
+  @Test
+  void readsAuthorInfoInRightFormat() throws Exception {
+    MatcherAssert.assertThat(
+      "Authors in right format",
+      new Author(
+        "cmig/master.xml",
+        "1"
+      ).value(),
+      new IsEqual<>(
+        "test"
+      )
     );
-  }
-
-  @Override
-  public String value() throws Exception {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/@author"
-        .formatted(
-          this.id
-        )
-    ).get(0);
   }
 }
