@@ -32,6 +32,7 @@ import org.cactoos.Scalar;
  * @since 0.0.0
  */
 public interface State extends Scalar<StateChanges> {
+  // @todo #37:2hr/DEV Find several designs for States implementations
   @Override
   StateChanges value();
 
