@@ -26,7 +26,7 @@ jobs:
           key: ${{ runner.os }}-jdk-${{ matrix.java }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-jdk-${{ matrix.java }}-maven-
-      - run: mvn clean install --errors --batch-mode
+      - run: mvn clean install -DskipITs --errors --batch-mode
 
   it-test:
     name: Build Integrations

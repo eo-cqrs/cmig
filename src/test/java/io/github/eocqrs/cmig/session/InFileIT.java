@@ -32,7 +32,8 @@ import org.junit.jupiter.api.Test;
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class InFileTest extends CassandraIntegration {
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
+final class InFileIT extends CassandraIntegration {
 
   @Test
   void appliesInRightFormat() {

@@ -34,7 +34,8 @@ import org.junit.jupiter.api.Test;
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class SimpleTest extends CassandraIntegration {
+@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
+final class SimpleIT extends CassandraIntegration {
 
   @Test
   void connectsSession() throws Exception {
