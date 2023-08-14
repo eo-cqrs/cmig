@@ -51,17 +51,19 @@ final class StateChangesTest {
       value,
       new IsEqual<>(
         new ListOf<>(
-          "CREATE KEYSPACE queryDatasets\n" +
-          "    WITH REPLICATION = {\n" +
-          "        'class' : 'NetworkTopologyStrategy',\n" +
-          "        'datacenter1' : 1\n" +
-          "        };",
-          "CREATE TABLE querydatasets.queries\n" +
-          "(\n" +
-          "    id    UUID PRIMARY KEY,\n" +
-          "    query TEXT,\n" +
-          "    seen  TIMESTAMP\n" +
-          ");"
+          """
+            CREATE KEYSPACE queryDatasets
+                WITH REPLICATION = {
+                    'class' : 'NetworkTopologyStrategy',
+                    'datacenter1' : 1
+                    };""",
+          """
+            CREATE TABLE querydatasets.queries
+            (
+                id    UUID PRIMARY KEY,
+                query TEXT,
+                seen  TIMESTAMP
+            );"""
         )
       )
     );
