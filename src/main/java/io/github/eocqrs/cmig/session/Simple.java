@@ -25,8 +25,6 @@ package io.github.eocqrs.cmig.session;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
-import java.io.IOException;
-
 /**
  * Simple Cassandra.
  *
