@@ -55,7 +55,7 @@ final class SimpleTest {
     final Cassandra cassandra = new Simple(mock);
     Assertions.assertDoesNotThrow(
       cassandra::close,
-      () -> "Closes without exception"
+      "Closes without exception"
     );
   }
 
@@ -64,7 +64,7 @@ final class SimpleTest {
     final Cassandra cassandra = new Simple(mock);
     Assertions.assertDoesNotThrow(
       cassandra::value,
-      () -> "Connect to mocked cluster doesnt throw exception"
+      "Connect to mocked cluster doesnt throw exception"
     );
   }
 }
