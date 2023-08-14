@@ -22,10 +22,8 @@
 
 package io.github.eocqrs.cmig;
 
+import io.github.eocqrs.cmig.sha.StateChanges;
 import org.cactoos.Scalar;
-/*
- * @todo #32:30m/DEV design State interface
- */
 
 /**
  * State.
@@ -33,8 +31,8 @@ import org.cactoos.Scalar;
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public interface State extends Scalar<String> {
-
+public interface State extends Scalar<StateChanges> {
   @Override
-  String value() throws Exception;
+  StateChanges value();
+
 }

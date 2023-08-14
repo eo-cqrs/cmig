@@ -25,7 +25,6 @@ package io.github.eocqrs.cmig.sha;
 import io.github.eocqrs.cmig.meta.XpathList;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.list.ListOf;
 import org.cactoos.text.TextOf;
 
 import java.util.List;
@@ -42,6 +41,7 @@ public final class StateChanges implements Scalar<List<String>> {
    * XPATH lists.
    */
   private final XpathList list;
+
   /**
    * CMIG directory.
    */
@@ -60,21 +60,17 @@ public final class StateChanges implements Scalar<List<String>> {
 
   @Override
   public List<String> value() throws Exception {
-    final List<String> contents = new ListOf<>();
-    final List<String> files = this.list.value();
-    for (final String file : files) {
-      final String content =
-        new TextOf(
+    return this.list.value()
+      .stream()
+      .map(
+        file -> new TextOf(
           new ResourceOf(
-            "%s/%s"
-              .formatted(
-                this.cmig,
-                file
-              )
+            "%s/%s".formatted(
+              this.cmig,
+              file
+            )
           )
-        ).asString();
-      contents.add(content);
-    }
-    return contents;
+        ).toString()
+      ).toList();
   }
 }

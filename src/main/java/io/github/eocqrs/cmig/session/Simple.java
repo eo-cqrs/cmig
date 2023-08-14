@@ -68,12 +68,12 @@ public final class Simple implements Cassandra {
   }
 
   @Override
-  public Session value() throws Exception {
+  public Session value() {
     return this.cluster.connect();
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     this.cluster.close();
   }
 }

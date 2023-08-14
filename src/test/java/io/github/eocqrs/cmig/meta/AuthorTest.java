@@ -41,7 +41,7 @@ final class AuthorTest {
       new Author(
         "cmig/master.xml",
         "1"
-      ).value(),
+      ).asString(),
       new IsEqual<>(
         "test"
       )

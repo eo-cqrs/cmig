@@ -76,7 +76,7 @@ public final class Names implements XpathList {
   }
 
   @Override
-  public List<String> value() throws Exception {
+  public List<String> value() {
     return this.xml.xpath(
       "/states/changeState[@id='%s']/files/file/@path"
         .formatted(
