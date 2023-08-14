@@ -20,32 +20,37 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.session;
+package it;
 
-import it.CassandraIntegration;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.AfterClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.testcontainers.containers.CassandraContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
- * Integration test for {@link InFile}.
+ * Cassandra for Integration Testing.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class InFileTest extends CassandraIntegration {
+@SuppressWarnings("JTCOP.RuleCorrectTestName")
+public abstract class CassandraIntegration {
 
-  @Test
-  void appliesInRightFormat() {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new InFile(
-          new Simple(
-            CassandraIntegration.host,
-            CASSANDRA.getMappedPort(9042)
-          ),
-          "cmig/001-initial-keyspace.cql"
-        ).apply(),
-      "Applies does not throw exception"
-    );
+  protected static final CassandraContainer<?> CASSANDRA =
+    new CassandraContainer<>(
+      DockerImageName.parse("cassandra:3.11.15")
+    ).withExposedPorts(9042);
+  protected static String host;
+
+  @BeforeAll
+  static void beforeAll() {
+    CassandraIntegration.CASSANDRA.start();
+    CassandraIntegration.host =
+      CassandraIntegration.CASSANDRA.getHost();
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    CassandraIntegration.CASSANDRA.stop();
   }
 }

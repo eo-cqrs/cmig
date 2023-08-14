@@ -20,32 +20,27 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.session;
+package it;
 
-import it.CassandraIntegration;
-import org.junit.jupiter.api.Assertions;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
- * Integration test for {@link InFile}.
+ * Cassandra Runs Integration test.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class InFileTest extends CassandraIntegration {
+@SuppressWarnings("JTCOP.RuleCorrectTestName")
+final class CassandraRunsIT extends CassandraIntegration {
 
   @Test
-  void appliesInRightFormat() {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new InFile(
-          new Simple(
-            CassandraIntegration.host,
-            CASSANDRA.getMappedPort(9042)
-          ),
-          "cmig/001-initial-keyspace.cql"
-        ).apply(),
-      "Applies does not throw exception"
+  void runs() {
+    MatcherAssert.assertThat(
+      "Cassandra runs",
+      CASSANDRA.isRunning(),
+      new IsEqual<>(true)
     );
   }
 }

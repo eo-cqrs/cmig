@@ -22,30 +22,31 @@
 
 package io.github.eocqrs.cmig.session;
 
+import com.datastax.driver.core.Session;
 import it.CassandraIntegration;
-import org.junit.jupiter.api.Assertions;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 /**
- * Integration test for {@link InFile}.
+ * Integration test for {@link Simple}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class InFileTest extends CassandraIntegration {
+final class SimpleTest extends CassandraIntegration {
 
   @Test
-  void appliesInRightFormat() {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new InFile(
-          new Simple(
-            CassandraIntegration.host,
-            CASSANDRA.getMappedPort(9042)
-          ),
-          "cmig/001-initial-keyspace.cql"
-        ).apply(),
-      "Applies does not throw exception"
+  void connectsSession() throws Exception {
+    final Session session = new Simple(
+      CassandraIntegration.host,
+      CASSANDRA.getMappedPort(9042)
+    ).value();
+    MatcherAssert.assertThat(
+      "Session is not null",
+      session,
+      Matchers.notNullValue()
     );
+    session.close();
   }
 }
