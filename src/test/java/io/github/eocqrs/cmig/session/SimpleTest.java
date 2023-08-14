@@ -60,7 +60,7 @@ final class SimpleTest {
   }
 
   @Test
-  void connectsToMockWithoutException(@Mock final Cluster mock) throws Exception {
+  void connectsToMockWithoutException(@Mock final Cluster mock) {
     final Cassandra cassandra = new Simple(mock);
     Assertions.assertDoesNotThrow(
       cassandra::value,
