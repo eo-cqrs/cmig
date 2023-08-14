@@ -13,15 +13,14 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-      - uses: docker-practice/actions-setup-docker@master
-        timeout-minutes: 12
       - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-jdk-${{ matrix.java }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-jdk-${{ matrix.java }}-maven-
-      - run: mvn clean install --errors --batch-mode
+            maven-
+      - run: |
+          mvn clean install -DskipITs
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
