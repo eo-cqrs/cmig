@@ -22,31 +22,26 @@
 
 package io.github.eocqrs.cmig.session;
 
-import it.CassandraIntegration;
-import org.junit.jupiter.api.Assertions;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Integration test for {@link InFile}.
- *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-@SuppressWarnings("JTCOP.RuleAllTestsHaveProductionClass")
-final class InFileIT extends CassandraIntegration {
+@ExtendWith(MockitoExtension.class)
+final class InFileTest {
 
   @Test
-  void appliesInRightFormat() {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new InFile(
-          new Simple(
-            CassandraIntegration.host,
-            CASSANDRA.getMappedPort(9042)
-          ),
-          "cmig/001-initial-keyspace.cql"
-        ).apply(),
-      "Applies does not throw exception"
+  void createsWithMockCassandra(@Mock final Cassandra mock) {
+    MatcherAssert.assertThat(
+      "Creates cql in file",
+      new InFile(mock, "cmig/001-initial-keyspace.cql"),
+      Matchers.notNullValue()
     );
   }
 }
