@@ -11,7 +11,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        os: [windows-2022, macos-12]
+        os: [macos-12]
         java: [17]
     runs-on: ${{ matrix.os }}
     steps:
