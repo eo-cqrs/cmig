@@ -79,8 +79,8 @@ SOFTWARE.
     <cassandra-driver-core.version>3.5.0</cassandra-driver-core.version>
     <cactoos.version>0.55.0</cactoos.version>
     <lombok.version>1.18.28</lombok.version>
-    <junit-api.version>5.9.3</junit-api.version>
-    <junit-params.version>5.9.3</junit-params.version>
+    <junit-api.version>5.10.0</junit-api.version>
+    <junit-params.version>5.10.0</junit-params.version>
     <assert4j-core.version>3.24.2</assert4j-core.version>
     <xembly.version>0.28.1</xembly.version>
     <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -88,7 +88,7 @@ SOFTWARE.
     <slf4j.version>2.0.7</slf4j.version>
     <jtcop.version>1.1.1</jtcop.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-    <checkstyle.version>8.15</checkstyle.version>
+    <checkstyle.version>10.12.2</checkstyle.version>
     <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
     <sa-tan.version>0.1.5</sa-tan.version>
     <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
@@ -99,6 +99,7 @@ SOFTWARE.
     <guava.version>19.0</guava.version>
     <test-cassandra.version>1.18.3</test-cassandra.version>
     <failsafe.version>3.1.0</failsafe.version>
+    <unixized.version>1.0.0</unixized.version>
   </properties>
   <dependencies>
     <dependency>
@@ -163,6 +164,11 @@ SOFTWARE.
       <artifactId>hamcrest-all</artifactId>
       <version>${hamcrest-all.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ru.l3r8y</groupId>
+      <artifactId>unixized</artifactId>
+      <version>${unixized.version}</version>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>

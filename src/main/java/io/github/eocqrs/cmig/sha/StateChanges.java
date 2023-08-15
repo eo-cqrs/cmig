@@ -26,7 +26,7 @@ import io.github.eocqrs.cmig.meta.XpathList;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.TextOf;
+import ru.l3r8y.UnixizedOf;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public final class StateChanges implements Scalar<List<String>> {
     final List<String> files = this.list.value();
     for (final String file : files) {
       final String content =
-        new TextOf(
+        new UnixizedOf(
           new ResourceOf(
             "%s/%s"
               .formatted(
@@ -72,7 +72,9 @@ public final class StateChanges implements Scalar<List<String>> {
                 file
               )
           )
-        ).asString();
+        )
+          .asText()
+          .asString();
       contents.add(content);
     }
     return contents;
