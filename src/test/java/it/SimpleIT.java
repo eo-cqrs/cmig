@@ -39,7 +39,7 @@ final class SimpleIT extends CassandraIntegration {
   @Test
   void connectsSession() throws Exception {
     final Session session = new Simple(
-      CassandraIntegration.host,
+      CassandraIntegration.HOST,
       CASSANDRA.getMappedPort(9042)
     ).value();
     MatcherAssert.assertThat(

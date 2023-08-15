@@ -41,8 +41,8 @@ final class InFileIT extends CassandraIntegration {
       () ->
         new InFile(
           new Simple(
-            CassandraIntegration.host,
-            CASSANDRA.getMappedPort(9042)
+            CassandraIntegration.HOST,
+            CassandraIntegration.CASSANDRA.getMappedPort(9042)
           ),
           "cmig/001-initial-keyspace.cql"
         ).apply(),
