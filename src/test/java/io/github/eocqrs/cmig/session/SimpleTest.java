@@ -22,26 +22,49 @@
 
 package io.github.eocqrs.cmig.session;
 
+import com.datastax.driver.core.Cluster;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
+ * Test suite for {@link Simple}.
+ *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
 @ExtendWith(MockitoExtension.class)
-final class InFileTest {
+final class SimpleTest {
 
   @Test
-  void createsWithMockCassandra(@Mock final Cassandra mock) {
+  void createsCassandra(@Mock final Cluster mock) {
+    final Cassandra cassandra = new Simple(mock);
     MatcherAssert.assertThat(
-      "Creates cql in file",
-      new InFile(mock, "cmig/001-initial-keyspace.cql"),
+      "Creates Cassandra",
+      cassandra,
       Matchers.notNullValue()
+    );
+  }
+
+  @Test
+  void closesWithoutException(@Mock final Cluster mock) {
+    final Cassandra cassandra = new Simple(mock);
+    Assertions.assertDoesNotThrow(
+      cassandra::close,
+      "Closes without exception"
+    );
+  }
+
+  @Test
+  void connectsToMockWithoutException(@Mock final Cluster mock) {
+    final Cassandra cassandra = new Simple(mock);
+    Assertions.assertDoesNotThrow(
+      cassandra::value,
+      "Connect to mocked cluster doesnt throw exception"
     );
   }
 }

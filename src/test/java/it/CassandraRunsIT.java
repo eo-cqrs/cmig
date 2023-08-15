@@ -20,28 +20,27 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.session;
+package it;
 
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
+ * Cassandra Runs Integration test.
+ *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-@ExtendWith(MockitoExtension.class)
-final class InFileTest {
+@SuppressWarnings("JTCOP.RuleCorrectTestName")
+final class CassandraRunsIT extends CassandraIntegration {
 
   @Test
-  void createsWithMockCassandra(@Mock final Cassandra mock) {
+  void runs() {
     MatcherAssert.assertThat(
-      "Creates cql in file",
-      new InFile(mock, "cmig/001-initial-keyspace.cql"),
-      Matchers.notNullValue()
+      "Cassandra runs",
+      CASSANDRA.isRunning(),
+      new IsEqual<>(true)
     );
   }
 }

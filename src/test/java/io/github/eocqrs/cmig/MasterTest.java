@@ -37,6 +37,9 @@ import org.junit.jupiter.api.Test;
  */
 final class MasterTest {
 
+  /*
+   * @todo #36:30m/DEV Tests for master
+   */
   @Test
   @Disabled
   void readsShaInRightFormat() throws Exception {
@@ -46,7 +49,6 @@ final class MasterTest {
         "master.xml",
         new Simple("localhost", 9042)
       ).value(),
-//      @todo #11:90m/DEV generate SHA based on commit result
       new IsEqual<>(
         "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
       )
@@ -54,7 +56,7 @@ final class MasterTest {
   }
 
   /*
-   * @todo #11:60m/DEV cassandra instance in tests
+   * @todo #36:60m/DEV Master Cassandra Test
    */
   @Test
   @Disabled

@@ -20,28 +20,37 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.session;
+package it;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.AfterClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.testcontainers.containers.CassandraContainer;
+import org.testcontainers.utility.DockerImageName;
 
 /**
+ * Cassandra for Integration Testing.
+ *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-@ExtendWith(MockitoExtension.class)
-final class InFileTest {
+@SuppressWarnings("JTCOP.RuleCorrectTestName")
+public abstract class CassandraIntegration {
 
-  @Test
-  void createsWithMockCassandra(@Mock final Cassandra mock) {
-    MatcherAssert.assertThat(
-      "Creates cql in file",
-      new InFile(mock, "cmig/001-initial-keyspace.cql"),
-      Matchers.notNullValue()
-    );
+  protected static final CassandraContainer<?> CASSANDRA =
+    new CassandraContainer<>(
+      DockerImageName.parse("cassandra:3.11.15")
+    ).withExposedPorts(9042);
+  protected static String host;
+
+  @BeforeAll
+  static void beforeAll() {
+    CassandraIntegration.CASSANDRA.start();
+    CassandraIntegration.host =
+      CassandraIntegration.CASSANDRA.getHost();
+  }
+
+  @AfterClass
+  public static void tearDown() {
+    CassandraIntegration.CASSANDRA.stop();
   }
 }
