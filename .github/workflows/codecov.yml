@@ -20,7 +20,7 @@ jobs:
           restore-keys: |
             maven-
       - run: |
-          mvn clean install
+          mvn clean install -DskipITs
       - uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

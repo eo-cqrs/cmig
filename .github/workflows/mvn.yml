@@ -1,4 +1,4 @@
-name: mvn
+name: maven
 on:
   push:
     branches:
@@ -8,10 +8,10 @@ on:
       - master
 jobs:
   test:
-    name: Tests
+    name: Build
     strategy:
       matrix:
-        os: [ ubuntu-20.04, macos-12 ]
+        os: [ ubuntu-20.04, macos-12, windows-2022 ]
         java: [ 17, 20 ]
     runs-on: ${{ matrix.os }}
     steps:
@@ -26,5 +26,27 @@ jobs:
           key: ${{ runner.os }}-jdk-${{ matrix.java }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-jdk-${{ matrix.java }}-maven-
-      - run: |
-          mvn clean install --errors --batch-mode
+      - run: mvn clean install -DskipITs --errors --batch-mode
+
+  it-test:
+    name: Build Integrations
+    strategy:
+      matrix:
+        os-integration: [ubuntu-20.04]
+        java: [17]
+    runs-on: ${{ matrix.os-integration }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - uses: docker-practice/actions-setup-docker@master
+        timeout-minutes: 12
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-jdk-${{ matrix.java }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-jdk-${{ matrix.java }}-maven-
+      - run: mvn clean install --errors --batch-mode

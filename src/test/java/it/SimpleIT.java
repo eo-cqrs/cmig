@@ -20,28 +20,33 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.session;
+package it;
 
+import com.datastax.driver.core.Session;
+import io.github.eocqrs.cmig.session.Simple;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
+ * Integration test for {@link Simple}.
+ *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-@ExtendWith(MockitoExtension.class)
-final class InFileTest {
+final class SimpleIT extends CassandraIntegration {
 
   @Test
-  void createsWithMockCassandra(@Mock final Cassandra mock) {
+  void connectsSession() throws Exception {
+    final Session session = new Simple(
+      CassandraIntegration.host,
+      CASSANDRA.getMappedPort(9042)
+    ).value();
     MatcherAssert.assertThat(
-      "Creates cql in file",
-      new InFile(mock, "cmig/001-initial-keyspace.cql"),
+      "Session is not null",
+      session,
       Matchers.notNullValue()
     );
+    session.close();
   }
 }

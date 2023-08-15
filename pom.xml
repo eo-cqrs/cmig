@@ -86,7 +86,7 @@ SOFTWARE.
     <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
     <maven-verifier-plugin.version>1.1</maven-verifier-plugin.version>
     <slf4j.version>2.0.7</slf4j.version>
-    <jtcop.version>1.1.0</jtcop.version>
+    <jtcop.version>1.1.1</jtcop.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     <checkstyle.version>10.12.2</checkstyle.version>
     <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
@@ -97,6 +97,9 @@ SOFTWARE.
     <mockito-junit-jupiter.version>5.4.0</mockito-junit-jupiter.version>
     <hamcrest-all.version>1.3</hamcrest-all.version>
     <guava.version>19.0</guava.version>
+    <test-cassandra.version>1.18.3</test-cassandra.version>
+    <failsafe.version>3.1.2</failsafe.version>
+    <unixized.version>1.0.0</unixized.version>
   </properties>
   <dependencies>
     <dependency>
@@ -160,6 +163,12 @@ SOFTWARE.
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <version>${hamcrest-all.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ru.l3r8y</groupId>
+      <artifactId>unixized</artifactId>
+      <version>${unixized.version}</version>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>
@@ -177,6 +186,12 @@ SOFTWARE.
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
       <version>${mockito-junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>cassandra</artifactId>
+      <version>${test-cassandra.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -208,6 +223,22 @@ SOFTWARE.
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

@@ -27,6 +27,7 @@ import org.cactoos.Text;
 import org.cactoos.bytes.Sha256DigestOf;
 import org.cactoos.io.InputOf;
 import org.cactoos.text.HexOf;
+import org.cactoos.text.Normalized;
 
 import java.util.List;
 
@@ -81,7 +82,9 @@ public final class Sha implements Text {
     return new HexOf(
       new Sha256DigestOf(
         new InputOf(
-          contents.toString()
+          new Normalized(
+            contents.toString()
+          )
         )
       )
     ).asString();
