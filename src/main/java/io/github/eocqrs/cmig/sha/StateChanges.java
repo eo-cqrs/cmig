@@ -23,10 +23,10 @@
 package io.github.eocqrs.cmig.sha;
 
 import io.github.eocqrs.cmig.meta.XpathList;
+import lombok.SneakyThrows;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
-import org.cactoos.list.ListOf;
-import org.cactoos.text.TextOf;
+import ru.l3r8y.UnixizedOf;
 
 import java.util.List;
 
@@ -62,18 +62,27 @@ public final class StateChanges implements Scalar<List<String>> {
   public List<String> value() throws Exception {
     return this.list.value()
       .stream()
-      .map(
-        file -> new UnixizedOf(
-          new ResourceOf(
-            "%s/%s"
-              .formatted(
-                this.cmig,
-                file
-              )
+      .map(this::contentOf)
+      .toList();
+  }
+
+  /**
+   * @todo #37:30min/DEV Move to separate class
+   * Create class ContentOf with tests.
+   * This puzzle might be moved into unixized library.
+   */
+  @SneakyThrows
+  private String contentOf(final String file) {
+    return new UnixizedOf(
+      new ResourceOf(
+        "%s/%s"
+          .formatted(
+            this.cmig,
+            file
           )
-        )
-          .asText()
-          .toString()
-      ).toList();
+      )
+    )
+      .asText()
+      .asString();
   }
 }
