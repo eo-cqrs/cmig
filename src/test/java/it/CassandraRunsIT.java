@@ -39,7 +39,7 @@ final class CassandraRunsIT extends CassandraIntegration {
   void runs() {
     MatcherAssert.assertThat(
       "Cassandra runs",
-      CASSANDRA.isRunning(),
+      CassandraIntegration.CASSANDRA.isRunning(),
       new IsEqual<>(true)
     );
   }
