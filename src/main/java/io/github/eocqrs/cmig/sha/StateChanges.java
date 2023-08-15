@@ -66,7 +66,7 @@ public final class StateChanges implements Scalar<List<String>> {
       .toList();
   }
 
-  /**
+  /*
    * @todo #37:30min/DEV Move to separate class
    * Create class ContentOf with tests.
    * This puzzle might be moved into unixized library.
