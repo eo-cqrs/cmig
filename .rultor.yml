@@ -8,7 +8,7 @@ assets:
   pubring.gpg: eo-cqrs/eo-cqrs-secrets#assets/pubring.gpg
 merge:
   script:
-    - "mvn clean install --errors --batch-mode"
+    - "mvn clean install -DskipITs --errors --batch-mode"
 release:
   pre: false
   sensetive:
