@@ -33,7 +33,6 @@ public interface Cql {
   /**
    * Apply Query.
    *
-   * @throws Exception if something went wrong.
    */
-  void apply() throws Exception;
+  void apply();
 }

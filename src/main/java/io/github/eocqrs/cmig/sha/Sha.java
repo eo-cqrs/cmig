@@ -43,10 +43,12 @@ public final class Sha implements Text {
    * State ID.
    */
   private final String id;
+
   /**
    * Master file.
    */
   private final String master;
+
   /**
    * CMIG directory.
    */

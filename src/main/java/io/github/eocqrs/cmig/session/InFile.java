@@ -57,12 +57,12 @@ public final class InFile implements Cql {
   }
 
   @Override
-  public void apply() throws Exception {
+  public void apply() {
     this.cassandra.value()
       .execute(
         new TextOf(
           new ResourceOf(this.name)
-        ).asString()
+        ).toString()
       );
   }
 }

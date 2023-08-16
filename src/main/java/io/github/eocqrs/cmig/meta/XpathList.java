@@ -35,5 +35,5 @@ import java.util.List;
 public interface XpathList extends Scalar<List<String>> {
 
   @Override
-  List<String> value() throws Exception;
+  List<String> value();
 }

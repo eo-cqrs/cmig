@@ -37,7 +37,7 @@ import java.io.IOException;
 public interface Cassandra extends Scalar<Session>, Closeable {
 
   @Override
-  Session value() throws Exception;
+  Session value();
 
   @Override
   void close() throws IOException;

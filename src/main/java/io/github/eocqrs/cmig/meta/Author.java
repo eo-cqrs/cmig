@@ -24,7 +24,7 @@ package io.github.eocqrs.cmig.meta;
 
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
-import org.cactoos.Scalar;
+import org.cactoos.Text;
 import org.cactoos.io.ResourceOf;
 
 /**
@@ -33,7 +33,7 @@ import org.cactoos.io.ResourceOf;
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class Author implements Scalar<String> {
+public final class Author implements Text {
 
   /**
    * XML.
@@ -75,7 +75,7 @@ public final class Author implements Scalar<String> {
   }
 
   @Override
-  public String value() throws Exception {
+  public String asString() {
     return this.xml.xpath(
       "/states/changeState[@id='%s']/@author"
         .formatted(

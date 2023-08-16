@@ -25,8 +25,6 @@ package io.github.eocqrs.cmig.session;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
-import java.io.IOException;
-
 /**
  * Simple Cassandra.
  *
@@ -68,12 +66,12 @@ public final class Simple implements Cassandra {
   }
 
   @Override
-  public Session value() throws Exception {
+  public Session value() {
     return this.cluster.connect();
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     this.cluster.close();
   }
 }

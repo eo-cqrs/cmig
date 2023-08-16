@@ -37,10 +37,10 @@ import org.junit.jupiter.api.Test;
 final class SimpleIT extends CassandraIntegration {
 
   @Test
-  void connectsSession() throws Exception {
+  void connectsSession() {
     final Session session = new Simple(
-      CassandraIntegration.host,
-      CASSANDRA.getMappedPort(9042)
+      CassandraIntegration.HOST,
+      CassandraIntegration.CASSANDRA.getMappedPort(9042)
     ).value();
     MatcherAssert.assertThat(
       "Session is not null",

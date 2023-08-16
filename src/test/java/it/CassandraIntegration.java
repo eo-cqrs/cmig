@@ -22,7 +22,7 @@
 
 package it;
 
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.CassandraContainer;
 import org.testcontainers.utility.DockerImageName;
@@ -40,16 +40,16 @@ public abstract class CassandraIntegration {
     new CassandraContainer<>(
       DockerImageName.parse("cassandra:3.11.15")
     ).withExposedPorts(9042);
-  protected static String host;
+  protected static String HOST;
 
   @BeforeAll
   static void beforeAll() {
     CassandraIntegration.CASSANDRA.start();
-    CassandraIntegration.host =
+    CassandraIntegration.HOST =
       CassandraIntegration.CASSANDRA.getHost();
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDown() {
     CassandraIntegration.CASSANDRA.stop();
   }
