@@ -58,8 +58,9 @@ public final class ContentsOf implements Text {
     this.file = name;
   }
 
+  @SneakyThrows
   @Override
-  public String asString() throws Exception {
+  public String asString() {
     return new UnixizedOf(
       new ResourceOf(
         "%s/%s"
