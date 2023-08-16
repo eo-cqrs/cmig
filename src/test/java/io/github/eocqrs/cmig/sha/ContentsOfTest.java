@@ -22,55 +22,32 @@
 
 package io.github.eocqrs.cmig.sha;
 
-import io.github.eocqrs.cmig.meta.XpathList;
-import org.cactoos.Scalar;
-
-import java.util.List;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Test;
 
 /**
- * Changes inside State.
+ * Test suite for {@link ContentsOf}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class StateChanges implements Scalar<List<String>> {
+final class ContentsOfTest {
 
-  /**
-   * XPATH lists.
-   */
-  private final XpathList list;
-
-  /**
-   * CMIG directory.
-   */
-  private final String cmig;
-
-  /**
-   * Ctor.
-   *
-   * @param lst XPATH list
-   * @param cmg CMIG directory
-   */
-  public StateChanges(final XpathList lst, final String cmg) {
-    this.list = lst;
-    this.cmig = cmg;
-  }
-
-  @Override
-  public List<String> value() throws Exception {
-    return this.list.value()
-      .stream()
-      .map(name -> {
-        try {
-          return new ContentsOf(this.cmig, name).asString();
-        } catch (final Exception ex) {
-          throw new IllegalStateException(
-            "Cannot read the contents of file %s"
-              .formatted(name),
-            ex
-          );
-        }
-      })
-      .toList();
+  @Test
+  void readsContentsInRightFormat() throws Exception {
+    MatcherAssert.assertThat(
+      "Contents in right format",
+      new ContentsOf("cmig", "001-initial-keyspace.cql")
+        .asString(),
+      new IsEqual<>(
+        """
+          CREATE KEYSPACE queryDatasets
+              WITH REPLICATION = {
+                  'class' : 'NetworkTopologyStrategy',
+                  'datacenter1' : 1
+                  };"""
+      )
+    );
   }
 }

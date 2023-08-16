@@ -22,23 +22,17 @@
 
 package io.github.eocqrs.cmig.sha;
 
-import io.github.eocqrs.cmig.meta.XpathList;
-import org.cactoos.Scalar;
-
-import java.util.List;
+import org.cactoos.Text;
+import org.cactoos.io.ResourceOf;
+import ru.l3r8y.UnixizedOf;
 
 /**
- * Changes inside State.
+ * Contents Of.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-public final class StateChanges implements Scalar<List<String>> {
-
-  /**
-   * XPATH lists.
-   */
-  private final XpathList list;
+public final class ContentsOf implements Text {
 
   /**
    * CMIG directory.
@@ -46,31 +40,35 @@ public final class StateChanges implements Scalar<List<String>> {
   private final String cmig;
 
   /**
+   * File name.
+   */
+  private final String file;
+
+  /**
    * Ctor.
    *
-   * @param lst XPATH list
-   * @param cmg CMIG directory
+   * @param cmg  CMIG directory
+   * @param name File name
    */
-  public StateChanges(final XpathList lst, final String cmg) {
-    this.list = lst;
+  public ContentsOf(
+    final String cmg,
+    final String name
+  ) {
     this.cmig = cmg;
+    this.file = name;
   }
 
   @Override
-  public List<String> value() throws Exception {
-    return this.list.value()
-      .stream()
-      .map(name -> {
-        try {
-          return new ContentsOf(this.cmig, name).asString();
-        } catch (final Exception ex) {
-          throw new IllegalStateException(
-            "Cannot read the contents of file %s"
-              .formatted(name),
-            ex
-          );
-        }
-      })
-      .toList();
+  public String asString() throws Exception {
+    return new UnixizedOf(
+      new ResourceOf(
+        "%s/%s"
+          .formatted(
+            this.cmig,
+            this.file
+          )
+      )
+    ).asText()
+      .asString();
   }
 }

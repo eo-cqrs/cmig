@@ -26,6 +26,7 @@ import io.github.eocqrs.cmig.meta.Names;
 import org.cactoos.list.ListOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -66,6 +67,18 @@ final class StateChangesTest {
             );"""
         )
       )
+    );
+  }
+
+  @Test
+  void throwsExceptionOnNonFoundFiles() {
+    Assertions.assertThrows(
+      Exception.class,
+      () -> new StateChanges(
+        new Names("cmig/fake-master.xml", "1"),
+        "cmig"
+      ).value(),
+      "Non existing State changes raise exception"
     );
   }
 }
