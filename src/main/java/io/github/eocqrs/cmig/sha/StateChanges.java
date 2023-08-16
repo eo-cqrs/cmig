@@ -60,17 +60,9 @@ public final class StateChanges implements Scalar<List<String>> {
   public List<String> value() throws Exception {
     return this.list.value()
       .stream()
-      .map(name -> {
-        try {
-          return new ContentsOf(this.cmig, name).asString();
-        } catch (final Exception ex) {
-          throw new IllegalStateException(
-            "Cannot read the contents of file %s"
-              .formatted(name),
-            ex
-          );
-        }
-      })
-      .toList();
+      .map(
+        name ->
+          new ContentsOf(this.cmig, name).asString()
+      ).toList();
   }
 }

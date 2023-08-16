@@ -22,6 +22,7 @@
 
 package io.github.eocqrs.cmig.sha;
 
+import lombok.SneakyThrows;
 import org.cactoos.Text;
 import org.cactoos.io.ResourceOf;
 import ru.l3r8y.UnixizedOf;
