@@ -23,18 +23,13 @@
 package io.github.eocqrs.cmig.meta;
 
 import com.jcabi.xml.XML;
-import com.jcabi.xml.XMLDocument;
-import org.cactoos.io.ResourceOf;
 
 import java.util.List;
 
 /**
- * File names of State.
- *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
- * @since 0.0.0
+ * Ids of changeStates.
  */
-public final class Names implements XpathList {
+public final class Ids implements XpathList {
 
   /**
    * XML.
@@ -42,47 +37,18 @@ public final class Names implements XpathList {
   private final XML xml;
 
   /**
-   * State ID.
-   */
-  private final String id;
-
-  /**
    * Ctor.
    *
-   * @param doc XML
-   * @param id  State ID
+   * @param doc Xml document with migration
    */
-  public Names(final XML doc, final String id) {
+  public Ids(final XML doc) {
     this.xml = doc;
-    this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
   }
 
   @Override
   public List<String> value() {
     return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
-        )
+      "/states/changeState/@id"
     );
   }
 }

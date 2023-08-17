@@ -22,67 +22,32 @@
 
 package io.github.eocqrs.cmig.meta;
 
-import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import org.cactoos.io.ResourceOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 /**
- * File names of State.
- *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
- * @since 0.0.0
+ * Test case for {@link Ids}.
  */
-public final class Names implements XpathList {
-
-  /**
-   * XML.
-   */
-  private final XML xml;
-
-  /**
-   * State ID.
-   */
-  private final String id;
-
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Names(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
-
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Names(final String name, final String id)
-    throws Exception {
-    this(
+public final class IdsTest {
+  @Test
+  void readsAllIds() throws Exception {
+    final List<String> ids = new Ids(
       new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
-  }
-
-  @Override
-  public List<String> value() {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/files/file/@path"
-        .formatted(
-          this.id
-        )
+        new ResourceOf("cmig/master.xml")
+          .stream()
+      )
+    ).value();
+    final List<String> expected = List.of("1", "2");
+    MatcherAssert.assertThat(
+      "%s contains all of %s"
+        .formatted(ids, expected),
+      ids,
+      Matchers.equalTo(expected)
     );
   }
 }
