@@ -23,6 +23,7 @@
 package io.github.eocqrs.cmig.sha;
 
 import io.github.eocqrs.cmig.meta.Names;
+import lombok.SneakyThrows;
 import org.cactoos.Text;
 import org.cactoos.bytes.Sha256DigestOf;
 import org.cactoos.io.InputOf;
@@ -70,8 +71,9 @@ public final class Sha implements Text {
     this.cmig = cmg;
   }
 
+  @SneakyThrows
   @Override
-  public String asString() throws Exception {
+  public String asString() {
     final List<String> contents = new StateChanges(
       new Names(
         this.master,

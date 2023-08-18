@@ -41,13 +41,11 @@ final class CmigKeyspaceTest {
       new CmigKeyspace("1")
         .asString(),
       new IsEqual<>(
-        """
-          CREATE KEYSPACE cmig 
-          WITH REPLICATION = {
-          'class': 'NetworkTopologyStrategy',
-          'datacenter': 1
-          };
-          """
+        "CREATE KEYSPACE cmig\n"
+        + "WITH REPLICATION = {\n"
+        + "'class': 'NetworkTopologyStrategy',\n"
+        + "'datacenter1': 1\n"
+        + "};\n"
       )
     );
   }

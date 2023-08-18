@@ -31,8 +31,9 @@ package io.github.eocqrs.cmig.session;
 public interface Cql {
 
   /**
-   * Apply Query.
+   * Applies Query.
    *
+   * @throws Exception if something went wrong.
    */
-  void apply();
+  void apply() throws Exception;
 }

@@ -38,7 +38,7 @@ public final class StateChanges implements Scalar<List<String>> {
   /**
    * XPATH lists.
    */
-  private final XpathList list;
+  private final XpathList xpath;
 
   /**
    * CMIG directory.
@@ -52,13 +52,13 @@ public final class StateChanges implements Scalar<List<String>> {
    * @param cmg CMIG directory
    */
   public StateChanges(final XpathList lst, final String cmg) {
-    this.list = lst;
+    this.xpath = lst;
     this.cmig = cmg;
   }
 
   @Override
   public List<String> value() throws Exception {
-    return this.list.value()
+    return this.xpath.value()
       .stream()
       .map(
         name ->

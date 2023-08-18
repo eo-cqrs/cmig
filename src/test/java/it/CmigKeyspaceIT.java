@@ -20,34 +20,45 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package it;
 
+import io.github.eocqrs.cmig.check.CmigKeyspace;
+import io.github.eocqrs.cmig.check.StatesTable;
+import io.github.eocqrs.cmig.session.Cassandra;
+import io.github.eocqrs.cmig.session.InText;
+import io.github.eocqrs.cmig.session.Simple;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test suite for {@link StatesTable}.
+ * Integration test for {@link CmigKeyspace} and {@link StatesTable}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class StatesTableTest {
+final class CmigKeyspaceIT extends CassandraIntegration {
 
   @Test
-  void readsTextInRightFormat() throws Exception {
+  void createsCmigKeyspaceAndTable() throws Exception {
+    final Cassandra cassandra = new Simple(
+      CassandraIntegration.HOST,
+      CassandraIntegration.CASSANDRA.getMappedPort(9042)
+    );
+    new InText(
+      new CmigKeyspace("1"),
+      cassandra
+    ).apply();
+    new InText(
+      new StatesTable(),
+      cassandra
+    ).apply();
     MatcherAssert.assertThat(
-      "Text in right format",
-      new StatesTable().asString(),
-      new IsEqual<>(
-        "CREATE TABLE cmig.states\n"
-        + "(\n"
-        + "id INT PRIMARY KEY,\n"
-        + "author TEXT,\n"
-        + "sha TEXT,\n"
-        + "seen TIMESTAMP\n"
-        + ");\n"
-      )
+      "Query to CMIG keyspace applied",
+      cassandra.value().execute(
+        "SELECT * FROM cmig.states"
+      ).wasApplied(),
+      new IsEqual<>(true)
     );
   }
 }

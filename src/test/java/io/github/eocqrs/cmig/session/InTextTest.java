@@ -20,34 +20,34 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package io.github.eocqrs.cmig.session;
 
+import org.cactoos.text.TextOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Test suite for {@link StatesTable}.
+ * Test suite for {@link InText}.
  *
  * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
-final class StatesTableTest {
+@ExtendWith(MockitoExtension.class)
+final class InTextTest {
 
   @Test
-  void readsTextInRightFormat() throws Exception {
+  void createsWithMockCassandra(@Mock final Cassandra mock) {
     MatcherAssert.assertThat(
-      "Text in right format",
-      new StatesTable().asString(),
-      new IsEqual<>(
-        "CREATE TABLE cmig.states\n"
-        + "(\n"
-        + "id INT PRIMARY KEY,\n"
-        + "author TEXT,\n"
-        + "sha TEXT,\n"
-        + "seen TIMESTAMP\n"
-        + ");\n"
-      )
+      "Creates cql from text",
+      new InText(
+        new TextOf("SELECT * FROM cmig.states"),
+        mock
+      ),
+      Matchers.notNullValue()
     );
   }
 }
