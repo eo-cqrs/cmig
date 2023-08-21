@@ -1,5 +1,6 @@
 package io.github.eocqrs.cmig.session;
 
+import lombok.SneakyThrows;
 import org.cactoos.Text;
 
 /**
@@ -34,8 +35,9 @@ public final class InText implements Cql {
     this.cassandra = cssndr;
   }
 
+  @SneakyThrows
   @Override
-  public void apply() throws Exception {
+  public void apply() {
     this.cassandra.value().execute(
       this.text.asString()
     );

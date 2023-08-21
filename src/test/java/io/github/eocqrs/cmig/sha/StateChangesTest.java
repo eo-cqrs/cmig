@@ -43,8 +43,7 @@ final class StateChangesTest {
     final List<String> value = new StateChanges(
       new Names(
         "cmig/master.xml", "1"
-      ),
-      "cmig"
+      )
     ).value();
     MatcherAssert.assertThat(
       "Contents in right format",

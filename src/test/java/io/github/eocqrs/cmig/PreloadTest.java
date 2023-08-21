@@ -20,33 +20,37 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package io.github.eocqrs.cmig;
 
+import io.github.eocqrs.cmig.session.Cassandra;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
- * Test suite for {@link CmigKeyspace}.
- *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * Test suite for {@link Preload}.
+ * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
-final class CmigKeyspaceTest {
+@ExtendWith(MockitoExtension.class)
+final class PreloadTest {
 
   @Test
-  void readsTextInRightFormat() throws Exception {
+  void creates(@Mock final Cassandra cassandra) throws Exception {
     MatcherAssert.assertThat(
-      "Text in right format",
-      new CmigKeyspace("1")
-        .asString(),
-      new IsEqual<>(
-        "CREATE KEYSPACE IF NOT EXISTS cmig\n"
-        + "WITH REPLICATION = {\n"
-        + "'class': 'NetworkTopologyStrategy',\n"
-        + "'datacenter1': 1\n"
-        + "};\n"
-      )
+      "Preload creates",
+      new Preload(
+        new Master(
+          "cmig/master.xml",
+          cassandra
+        ),
+        cassandra,
+        "3"
+      ),
+      Matchers.notNullValue()
     );
   }
 }

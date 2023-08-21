@@ -38,7 +38,7 @@ final class ContentsOfTest {
   void readsContentsInRightFormat() throws Exception {
     MatcherAssert.assertThat(
       "Contents in right format",
-      new ContentsOf("cmig", "001-initial-keyspace.cql")
+      new ContentsOf("001-initial-keyspace.cql")
         .asString(),
       new IsEqual<>(
         """

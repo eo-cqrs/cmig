@@ -48,7 +48,7 @@ public final class CmigKeyspace implements Text {
 
   @Override
   public String asString() throws Exception {
-    return ("CREATE KEYSPACE cmig\n"
+    return ("CREATE KEYSPACE IF NOT EXISTS cmig\n"
             + "WITH REPLICATION = {\n"
             + "'class': 'NetworkTopologyStrategy',\n"
             + "'datacenter1': %s\n"

@@ -34,7 +34,7 @@ public final class StatesTable implements Text {
 
   @Override
   public String asString() throws Exception {
-    return "CREATE TABLE cmig.states\n"
+    return "CREATE TABLE IF NOT EXISTS cmig.states\n"
            + "(\n"
            + "id INT PRIMARY KEY,\n"
            + "author TEXT,\n"

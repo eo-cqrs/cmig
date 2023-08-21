@@ -24,11 +24,21 @@ package io.github.eocqrs.cmig;
 
 import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
+import io.github.eocqrs.cmig.meta.Author;
+import io.github.eocqrs.cmig.meta.Ids;
 import io.github.eocqrs.cmig.meta.Names;
 import io.github.eocqrs.cmig.session.Cassandra;
 import io.github.eocqrs.cmig.session.InFile;
+import io.github.eocqrs.cmig.session.InText;
+import io.github.eocqrs.cmig.sha.Sha;
 import org.cactoos.Scalar;
 import org.cactoos.io.ResourceOf;
+import org.cactoos.list.ListOf;
+import org.cactoos.text.TextOf;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 /*
  * @todo #32:45m/DEV Master is set of states inside XML document.
  */
@@ -45,7 +55,7 @@ public final class Master implements Scalar<String> {
   /**
    * XML.
    */
-  private final XML xml;
+  private final XML self;
   /**
    * Cassandra.
    */
@@ -54,55 +64,74 @@ public final class Master implements Scalar<String> {
   /**
    * Ctor.
    *
-   * @param doc XML
+   * @param doc XML document
    * @param cs  Cassandra
    */
   public Master(
     final XML doc,
     final Cassandra cs
   ) {
-    this.xml = doc;
+    this.self = doc;
     this.cassandra = cs;
   }
 
   /**
    * Ctor.
    *
-   * @param nm File name
-   * @param cs Cassandra
+   * @param name XML master name
+   * @param cs   Cassandra
    * @throws Exception if something went wrong
    */
   public Master(
-    final String nm,
+    final String name,
     final Cassandra cs
   ) throws Exception {
     this(
       new XMLDocument(
-        new ResourceOf(
-          "cmig/%s"
-            .formatted(nm)
-        ).stream()
+        new ResourceOf(name).stream()
       ),
       cs
     );
   }
 
+  /*
+   * @todo #48:90m/DEV Decompose Master #value().
+   */
   @Override
-  public String value() throws Exception {
-    new Names(this.xml, "").value()
-      .forEach(file -> {
-          try {
-            new InFile(
-              this.cassandra, "cmig/%s".formatted(file)
-            ).apply();
-          } catch (final Exception ex) {
-            throw new IllegalStateException(
-              "Schema migration cannot be executed",
-              ex
-            );
-          }
-        }
-      );
-    return "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9";
+  public String value() {
+    final List<String> shas = new ListOf<>();
+    new Ids(this.self)
+      .value()
+      .forEach(id -> {
+        final String author = new Author(this.self, id)
+          .asString();
+        final String sha = new Sha(
+          id, this.self
+        ).asString();
+        new InText(
+          new TextOf(
+            "INSERT INTO cmig.states(id, author, sha, seen) "
+            + "VALUES (%s, '%s', '%s', '%s');"
+              .formatted(
+                id,
+                author,
+                sha,
+                LocalDateTime.now().toInstant(
+                  ZoneOffset.UTC
+                ).toEpochMilli()
+              )
+          ),
+          this.cassandra
+        ).apply();
+        shas.add(sha);
+        new Names(this.self, id)
+          .value()
+          .forEach(
+            name -> new InFile(
+              this.cassandra, "cmig/%s".formatted(name)
+            ).apply()
+          );
+      });
+    return shas.get(shas.size() - 1);
   }
 }

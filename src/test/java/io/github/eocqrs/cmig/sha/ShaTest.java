@@ -22,6 +22,8 @@
 
 package io.github.eocqrs.cmig.sha;
 
+import com.jcabi.xml.XMLDocument;
+import org.cactoos.io.ResourceOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
@@ -40,8 +42,11 @@ final class ShaTest {
       "SHA 256 in right format",
       new Sha(
         "1",
-        "cmig/master.xml",
-        "cmig"
+        new XMLDocument(
+          new ResourceOf(
+            "cmig/master.xml"
+          ).stream()
+        )
       ).asString(),
       new IsEqual<>(
         "97a046e3a06e2d406578175934c300dffbb13ee80db254874c7d19dc4bdd6832"
