@@ -58,7 +58,10 @@ Decompose files for better traceability.
 In Java, all you need is to create Cassandra and Master objects:
 ```java
 final Cassandra cassandra = new Simple("localhost", 9042);
-final String sha = new Master("master.xml", cassandra).value();
+final String sha = new Preload(
+  new Master("cmig/master.xml", cassandra),
+  cassandra, "1" // datacenter of cmig keyspace
+).value();
 ```
 
 ## How to Contribute
