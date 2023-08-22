@@ -22,6 +22,7 @@
 
 package io.github.eocqrs.cmig.sha;
 
+import com.jcabi.xml.XML;
 import io.github.eocqrs.cmig.meta.Names;
 import lombok.SneakyThrows;
 import org.cactoos.Text;
@@ -46,29 +47,22 @@ public final class Sha implements Text {
   private final String id;
 
   /**
-   * Master file.
+   * Master XML.
    */
-  private final String master;
-
-  /**
-   * CMIG directory.
-   */
-  private final String cmig;
+  private final XML master;
 
   /**
    * Ctor.
-   * @param id State ID
-   * @param mst Master file
-   * @param cmg CMIG directory
+   *
+   * @param id  State ID
+   * @param mst Master XML
    */
   public Sha(
     final String id,
-    final String mst,
-    final String cmg
+    final XML mst
   ) {
     this.id = id;
     this.master = mst;
-    this.cmig = cmg;
   }
 
   @SneakyThrows
@@ -78,8 +72,7 @@ public final class Sha implements Text {
       new Names(
         this.master,
         this.id
-      ),
-      this.cmig
+      )
     ).value();
     return new HexOf(
       new Sha256DigestOf(

@@ -20,32 +20,54 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package it;
 
+import com.jcabi.xml.XMLDocument;
+import io.github.eocqrs.cmig.Master;
+import io.github.eocqrs.cmig.check.CmigKeyspace;
+import io.github.eocqrs.cmig.check.StatesTable;
+import io.github.eocqrs.cmig.session.Cassandra;
+import io.github.eocqrs.cmig.session.InText;
+import io.github.eocqrs.cmig.session.Simple;
+import org.cactoos.io.ResourceOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test suite for {@link CmigKeyspace}.
+ * Integration test for {@link Master}.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
-final class CmigKeyspaceTest {
+final class MasterIT extends CassandraIntegration {
 
   @Test
-  void readsTextInRightFormat() throws Exception {
+  void appliesMaster() throws Exception {
+    final Cassandra cassandra = new Simple(
+      CassandraIntegration.HOST,
+      CassandraIntegration.CASSANDRA.getMappedPort(9042)
+    );
+    new InText(
+      new CmigKeyspace("1"),
+      cassandra
+    ).apply();
+    new InText(
+      new StatesTable(),
+      cassandra
+    ).apply();
     MatcherAssert.assertThat(
-      "Text in right format",
-      new CmigKeyspace("1")
-        .asString(),
+      "Final SHA256 in right format",
+      new Master(
+        new XMLDocument(
+          new ResourceOf(
+            "cmig/master.xml"
+          ).stream()
+        ),
+        cassandra
+      ).value(),
       new IsEqual<>(
-        "CREATE KEYSPACE IF NOT EXISTS cmig\n"
-        + "WITH REPLICATION = {\n"
-        + "'class': 'NetworkTopologyStrategy',\n"
-        + "'datacenter1': 1\n"
-        + "};\n"
+        "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
       )
     );
   }

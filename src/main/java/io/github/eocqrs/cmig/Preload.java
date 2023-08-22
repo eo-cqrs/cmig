@@ -20,33 +20,64 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package io.github.eocqrs.cmig;
 
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Test;
+import io.github.eocqrs.cmig.check.CmigKeyspace;
+import io.github.eocqrs.cmig.check.StatesTable;
+import io.github.eocqrs.cmig.session.Cassandra;
+import io.github.eocqrs.cmig.session.InText;
+import org.cactoos.Scalar;
 
 /**
- * Test suite for {@link CmigKeyspace}.
+ * Preload decorator for {@link Master}.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
-final class CmigKeyspaceTest {
+public final class Preload implements Scalar<String> {
 
-  @Test
-  void readsTextInRightFormat() throws Exception {
-    MatcherAssert.assertThat(
-      "Text in right format",
-      new CmigKeyspace("1")
-        .asString(),
-      new IsEqual<>(
-        "CREATE KEYSPACE IF NOT EXISTS cmig\n"
-        + "WITH REPLICATION = {\n"
-        + "'class': 'NetworkTopologyStrategy',\n"
-        + "'datacenter1': 1\n"
-        + "};\n"
-      )
-    );
+  /**
+   * Scalar of Master.
+   */
+  private final Scalar<String> master;
+
+  /**
+   * Cassandra.
+   */
+  private final Cassandra cassandra;
+
+  /**
+   * Datacenter.
+   */
+  private final String datacenter;
+
+  /**
+   * Ctor.
+   *
+   * @param mstr Scalar of Master
+   * @param cs   Cassandra
+   * @param dc   Datacenter
+   */
+  public Preload(
+    final Scalar<String> mstr,
+    final Cassandra cs,
+    final String dc
+  ) {
+    this.master = mstr;
+    this.cassandra = cs;
+    this.datacenter = dc;
+  }
+
+  @Override
+  public String value() throws Exception {
+    new InText(
+      new CmigKeyspace(this.datacenter),
+      this.cassandra
+    ).apply();
+    new InText(
+      new StatesTable(),
+      this.cassandra
+    ).apply();
+    return this.master.value();
   }
 }

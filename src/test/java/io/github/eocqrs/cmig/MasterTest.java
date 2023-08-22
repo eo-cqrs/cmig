@@ -22,52 +22,29 @@
 
 package io.github.eocqrs.cmig;
 
-import io.github.eocqrs.cmig.session.Simple;
+import io.github.eocqrs.cmig.session.Cassandra;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * Test suite for {@link Master}.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
+@ExtendWith(MockitoExtension.class)
 final class MasterTest {
 
-  /*
-   * @todo #36:30m/DEV Tests for master
-   */
   @Test
-  @Disabled
-  void readsShaInRightFormat() throws Exception {
+  void creates(@Mock final Cassandra cassandra) throws Exception {
     MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Master(
-        "master.xml",
-        new Simple("localhost", 9042)
-      ).value(),
-      new IsEqual<>(
-        "c8be525311cfd5f5ac7bf1c7d41a61fd82ae5e384b9b7b490358c1cb038c46c9"
-      )
-    );
-  }
-
-  /*
-   * @todo #36:60m/DEV Master Cassandra Test
-   */
-  @Test
-  @Disabled
-  void appliesInCassandra() throws Exception {
-    Assertions.assertDoesNotThrow(
-      () ->
-        new Master(
-          "master.xml",
-          new Simple("localhost", 9042)
-        ).value(),
-      "Applies does not throw exception"
+      "Master must not be null",
+      new Master("cmig/master.xml", cassandra),
+      Matchers.notNullValue()
     );
   }
 }

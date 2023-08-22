@@ -36,11 +36,6 @@ import ru.l3r8y.UnixizedOf;
 public final class ContentsOf implements Text {
 
   /**
-   * CMIG directory.
-   */
-  private final String cmig;
-
-  /**
    * File name.
    */
   private final String file;
@@ -48,14 +43,11 @@ public final class ContentsOf implements Text {
   /**
    * Ctor.
    *
-   * @param cmg  CMIG directory
    * @param name File name
    */
   public ContentsOf(
-    final String cmg,
     final String name
   ) {
-    this.cmig = cmg;
     this.file = name;
   }
 
@@ -64,9 +56,8 @@ public final class ContentsOf implements Text {
   public String asString() {
     return new UnixizedOf(
       new ResourceOf(
-        "%s/%s"
+        "cmig/%s"
           .formatted(
-            this.cmig,
             this.file
           )
       )

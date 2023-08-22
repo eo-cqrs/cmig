@@ -20,32 +20,42 @@
  * SOFTWARE.
  */
 
-package io.github.eocqrs.cmig.check;
+package it;
 
+import io.github.eocqrs.cmig.Master;
+import io.github.eocqrs.cmig.Preload;
+import io.github.eocqrs.cmig.session.Cassandra;
+import io.github.eocqrs.cmig.session.Simple;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test suite for {@link CmigKeyspace}.
+ * Integration test for {@link Preload}.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
+ * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
-final class CmigKeyspaceTest {
+final class PreloadIT extends CassandraIntegration {
 
   @Test
-  void readsTextInRightFormat() throws Exception {
+  void applies() throws Exception {
+    final Cassandra cassandra = new Simple(
+      CassandraIntegration.HOST,
+      CassandraIntegration.CASSANDRA.getMappedPort(9042)
+    );
     MatcherAssert.assertThat(
-      "Text in right format",
-      new CmigKeyspace("1")
-        .asString(),
+      "SHA256 in right format",
+      new Preload(
+        new Master(
+          "cmig/master.xml",
+          cassandra
+        ),
+        cassandra,
+        "1"
+      ).value(),
       new IsEqual<>(
-        "CREATE KEYSPACE IF NOT EXISTS cmig\n"
-        + "WITH REPLICATION = {\n"
-        + "'class': 'NetworkTopologyStrategy',\n"
-        + "'datacenter1': 1\n"
-        + "};\n"
+        "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
       )
     );
   }

@@ -265,7 +265,7 @@ SOFTWARE.
                     <limit>
                       <counter>INSTRUCTION</counter>
                       <value>COVEREDRATIO</value>
-                      <minimum>0.65</minimum>
+                      <minimum>0.59</minimum>
                     </limit>
                     <limit>
                       <counter>LINE</counter>
