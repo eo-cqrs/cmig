@@ -41,7 +41,7 @@ final class PreloadTest {
   @Test
   void creates(@Mock final Cassandra cassandra) throws Exception {
     MatcherAssert.assertThat(
-      "Preload creates",
+      "Preload must not be null",
       new Preload(
         new Master(
           "cmig/master.xml",

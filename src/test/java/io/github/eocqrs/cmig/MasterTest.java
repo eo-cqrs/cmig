@@ -42,7 +42,7 @@ final class MasterTest {
   @Test
   void creates(@Mock final Cassandra cassandra) throws Exception {
     MatcherAssert.assertThat(
-      "Master creates",
+      "Master must not be null",
       new Master("cmig/master.xml", cassandra),
       Matchers.notNullValue()
     );

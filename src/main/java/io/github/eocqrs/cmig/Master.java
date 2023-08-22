@@ -110,6 +110,7 @@ public final class Master implements Scalar<String> {
         ).asString();
         new InText(
           new TextOf(
+            // @todo #36:60m/DEV Implement PreparedCql to avoid cql injection.
             "INSERT INTO cmig.states(id, author, sha, seen) "
             + "VALUES (%s, '%s', '%s', '%s');"
               .formatted(
