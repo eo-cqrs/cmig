@@ -76,7 +76,7 @@ SOFTWARE.
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <cassandra-driver-core.version>3.5.0</cassandra-driver-core.version>
+    <cassandra-driver-core.version>3.11.5</cassandra-driver-core.version>
     <cactoos.version>0.55.0</cactoos.version>
     <lombok.version>1.18.28</lombok.version>
     <junit-api.version>5.10.0</junit-api.version>
