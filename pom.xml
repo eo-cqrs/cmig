@@ -93,8 +93,8 @@ SOFTWARE.
     <sa-tan.version>0.1.5</sa-tan.version>
     <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
-    <mockito-core.version>5.9.0</mockito-core.version>
-    <mockito-junit-jupiter.version>5.9.0</mockito-junit-jupiter.version>
+    <mockito-core.version>5.10.0</mockito-core.version>
+    <mockito-junit-jupiter.version>5.10.0</mockito-junit-jupiter.version>
     <hamcrest-all.version>1.3</hamcrest-all.version>
     <guava.version>19.0</guava.version>
     <test-cassandra.version>1.19.3</test-cassandra.version>
