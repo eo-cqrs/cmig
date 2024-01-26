@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package it;
 
 import org.hamcrest.MatcherAssert;
@@ -29,18 +30,17 @@ import org.junit.jupiter.api.Test;
 /**
  * Cassandra Runs Integration test.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
 @SuppressWarnings("JTCOP.RuleCorrectTestName")
 final class CassandraRunsIT extends CassandraIntegration {
 
-  @Test
-  void runs() {
-    MatcherAssert.assertThat(
-      "Cassandra runs",
-      CassandraIntegration.CASSANDRA.isRunning(),
-      new IsEqual<>(true)
-    );
-  }
+    @Test
+    void runs() {
+        MatcherAssert.assertThat(
+            "Cassandra runs",
+            CassandraIntegration.CASSANDRA.isRunning(),
+            new IsEqual<>(true)
+        );
+    }
 }

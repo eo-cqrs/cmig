@@ -21,19 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package io.github.eocqrs.cmig;
-
-import io.github.eocqrs.cmig.sha.StateChanges;
-import org.cactoos.Scalar;
 
 /**
- * State.
+ * Integration tests.
  *
  * @since 0.0.0
  */
-public interface State extends Scalar<StateChanges> {
-    // @todo #37:2hr/DEV Find several designs for States implementations
-    @Override
-    StateChanges value();
-
-}
+package it;

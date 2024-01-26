@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -37,38 +39,37 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration test for {@link Master}.
  *
- * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
 final class MasterIT extends CassandraIntegration {
 
-  @Test
-  void appliesMaster() throws Exception {
-    final Cassandra cassandra = new Simple(
-      CassandraIntegration.HOST,
-      CassandraIntegration.CASSANDRA.getMappedPort(9042)
-    );
-    new InText(
-      new CmigKeyspace("1"),
-      cassandra
-    ).apply();
-    new InText(
-      new StatesTable(),
-      cassandra
-    ).apply();
-    MatcherAssert.assertThat(
-      "Final SHA256 in right format",
-      new Master(
-        new XMLDocument(
-          new ResourceOf(
-            "cmig/master.xml"
-          ).stream()
-        ),
-        cassandra
-      ).value(),
-      new IsEqual<>(
-        "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
-      )
-    );
-  }
+    @Test
+    void appliesMaster() throws Exception {
+        final Cassandra cassandra = new Simple(
+            CassandraIntegration.host,
+            CassandraIntegration.CASSANDRA.getMappedPort(9042)
+        );
+        new InText(
+            new CmigKeyspace("1"),
+            cassandra
+        ).apply();
+        new InText(
+            new StatesTable(),
+            cassandra
+        ).apply();
+        MatcherAssert.assertThat(
+            "Final SHA256 in right format",
+            new Master(
+                new XMLDocument(
+                    new ResourceOf(
+                        "cmig/master.xml"
+                    ).stream()
+                ),
+                cassandra
+            ).value(),
+            new IsEqual<>(
+                "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
+            )
+        );
+    }
 }
