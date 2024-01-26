@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package io.github.eocqrs.cmig.check;
 
 import org.cactoos.Text;
@@ -27,31 +28,33 @@ import org.cactoos.Text;
 /**
  * CMIG Check Keyspace.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
+ * @checkstyle StringLiteralsConcatenationCheck (30 lines)
  */
 public final class CmigKeyspace implements Text {
 
-  /**
-   * Datacenter.
-   */
-  private final String dc;
+    /**
+     * Datacenter.
+     */
+    private final String dcntr;
 
-  /**
-   * Ctor.
-   *
-   * @param datacenter Datacenter
-   */
-  public CmigKeyspace(final String datacenter) {
-    this.dc = datacenter;
-  }
+    /**
+     * Ctor.
+     *
+     * @param datacenter Datacenter
+     */
+    public CmigKeyspace(final String datacenter) {
+        this.dcntr = datacenter;
+    }
 
-  @Override
-  public String asString() throws Exception {
-    return ("CREATE KEYSPACE IF NOT EXISTS cmig\n"
+    @Override
+    public String asString() throws Exception {
+        return (
+            "CREATE KEYSPACE IF NOT EXISTS cmig\n"
             + "WITH REPLICATION = {\n"
             + "'class': 'NetworkTopologyStrategy',\n"
             + "'datacenter1': %s\n"
-            + "};\n").formatted(this.dc);
-  }
+            + "};\n"
+        ).formatted(this.dcntr);
+    }
 }

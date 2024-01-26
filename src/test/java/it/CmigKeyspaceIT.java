@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package it;
 
 import io.github.eocqrs.cmig.check.CmigKeyspace;
@@ -34,31 +35,30 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration test for {@link CmigKeyspace} and {@link StatesTable}.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
 final class CmigKeyspaceIT extends CassandraIntegration {
 
-  @Test
-  void createsCmigKeyspaceAndTable() throws Exception {
-    final Cassandra cassandra = new Simple(
-      CassandraIntegration.HOST,
-      CassandraIntegration.CASSANDRA.getMappedPort(9042)
-    );
-    new InText(
-      new CmigKeyspace("1"),
-      cassandra
-    ).apply();
-    new InText(
-      new StatesTable(),
-      cassandra
-    ).apply();
-    MatcherAssert.assertThat(
-      "Query to CMIG keyspace applied",
-      cassandra.value().execute(
-        "SELECT * FROM cmig.states"
-      ).wasApplied(),
-      new IsEqual<>(true)
-    );
-  }
+    @Test
+    void createsCmigKeyspaceAndTable() {
+        final Cassandra cassandra = new Simple(
+            CassandraIntegration.host,
+            CassandraIntegration.CASSANDRA.getMappedPort(9042)
+        );
+        new InText(
+            new CmigKeyspace("1"),
+            cassandra
+        ).apply();
+        new InText(
+            new StatesTable(),
+            cassandra
+        ).apply();
+        MatcherAssert.assertThat(
+            "Query to CMIG keyspace applied",
+            cassandra.value().execute(
+                "SELECT * FROM cmig.states"
+            ).wasApplied(),
+            new IsEqual<>(true)
+        );
+    }
 }

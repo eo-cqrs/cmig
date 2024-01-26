@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,36 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package io.github.eocqrs.cmig.meta;
 
 import com.jcabi.xml.XML;
-
 import java.util.List;
 
 /**
  * Ids of changeStates.
+ *
+ * @since 0.0.0
  */
 public final class Ids implements XpathList {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
+    /**
+     * XML.
+     */
+    private final XML xml;
 
-  /**
-   * Ctor.
-   *
-   * @param doc Xml document with migration
-   */
-  public Ids(final XML doc) {
-    this.xml = doc;
-  }
+    /**
+     * Ctor.
+     *
+     * @param doc Xml document with migration
+     */
+    public Ids(final XML doc) {
+        this.xml = doc;
+    }
 
-  @Override
-  public List<String> value() {
-    return this.xml.xpath(
-      "/states/changeState/@id"
-    );
-  }
+    @Override
+    public List<String> value() {
+        return this.xml.xpath(
+            "/states/changeState/@id"
+        );
+    }
 }

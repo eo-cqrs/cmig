@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package io.github.eocqrs.cmig.meta;
 
 import com.jcabi.xml.XML;
@@ -30,57 +31,57 @@ import org.cactoos.io.ResourceOf;
 /**
  * Author of State.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
 public final class Author implements Text {
 
-  /**
-   * XML.
-   */
-  private final XML xml;
-  /**
-   * State ID.
-   */
-  private final String id;
+    /**
+     * XML.
+     */
+    private final XML xml;
 
-  /**
-   * Ctor.
-   *
-   * @param doc XML
-   * @param id  State ID
-   */
-  public Author(final XML doc, final String id) {
-    this.xml = doc;
-    this.id = id;
-  }
+    /**
+     * State ID.
+     */
+    private final String identifier;
 
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   * @param id   State ID
-   * @throws Exception if something went wrong
-   */
-  public Author(final String name, final String id)
-    throws Exception {
-    this(
-      new XMLDocument(
-        new ResourceOf(
-          name
-        ).stream()
-      ),
-      id
-    );
-  }
+    /**
+     * Ctor.
+     *
+     * @param doc XML
+     * @param idn State ID
+     */
+    public Author(final XML doc, final String idn) {
+        this.xml = doc;
+        this.identifier = idn;
+    }
 
-  @Override
-  public String asString() {
-    return this.xml.xpath(
-      "/states/changeState[@id='%s']/@author"
-        .formatted(
-          this.id
-        )
-    ).get(0);
-  }
+    /**
+     * Ctor.
+     *
+     * @param name File name
+     * @param idn State ID
+     * @throws Exception if something went wrong
+     */
+    public Author(final String name, final String idn)
+        throws Exception {
+        this(
+            new XMLDocument(
+                new ResourceOf(
+                    name
+                ).stream()
+            ),
+            idn
+        );
+    }
+
+    @Override
+    public String asString() {
+        return this.xml.xpath(
+            "/states/changeState[@id='%s']/@author"
+                .formatted(
+                    this.identifier
+                )
+        ).get(0);
+    }
 }

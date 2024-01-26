@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package io.github.eocqrs.cmig.sha;
 
 import com.jcabi.xml.XML;
@@ -31,57 +32,53 @@ import org.cactoos.io.InputOf;
 import org.cactoos.text.HexOf;
 import org.cactoos.text.Normalized;
 
-import java.util.List;
-
 /**
  * SHA256 for State.
  *
- * @author Aliaksei Bialiauski (0.0.0)
  * @since 0.0.0
  */
 public final class Sha implements Text {
 
-  /**
-   * State ID.
-   */
-  private final String id;
+    /**
+     * State ID.
+     */
+    private final String identifier;
 
-  /**
-   * Master XML.
-   */
-  private final XML master;
+    /**
+     * Master XML.
+     */
+    private final XML master;
 
-  /**
-   * Ctor.
-   *
-   * @param id  State ID
-   * @param mst Master XML
-   */
-  public Sha(
-    final String id,
-    final XML mst
-  ) {
-    this.id = id;
-    this.master = mst;
-  }
+    /**
+     * Ctor.
+     *
+     * @param idn State ID
+     * @param mst Master XML
+     */
+    public Sha(
+        final String idn,
+        final XML mst
+    ) {
+        this.identifier = idn;
+        this.master = mst;
+    }
 
-  @SneakyThrows
-  @Override
-  public String asString() {
-    final List<String> contents = new StateChanges(
-      new Names(
-        this.master,
-        this.id
-      )
-    ).value();
-    return new HexOf(
-      new Sha256DigestOf(
-        new InputOf(
-          new Normalized(
-            contents.toString()
-          )
-        )
-      )
-    ).asString();
-  }
+    @SneakyThrows
+    @Override
+    public String asString() {
+        return new HexOf(
+            new Sha256DigestOf(
+                new InputOf(
+                    new Normalized(
+                        new StateChanges(
+                            new Names(
+                                this.master,
+                                this.identifier
+                            )
+                        ).value().toString()
+                    )
+                )
+            )
+        ).asString();
+    }
 }

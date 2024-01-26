@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package it;
 
 import io.github.eocqrs.cmig.Master;
@@ -33,30 +34,29 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration test for {@link Preload}.
  *
- * @author Aliaksei Bialiauski (aliaksei.bialiauski@hey.com)
  * @since 0.0.0
  */
 final class PreloadIT extends CassandraIntegration {
 
-  @Test
-  void applies() throws Exception {
-    final Cassandra cassandra = new Simple(
-      CassandraIntegration.HOST,
-      CassandraIntegration.CASSANDRA.getMappedPort(9042)
-    );
-    MatcherAssert.assertThat(
-      "SHA256 in right format",
-      new Preload(
-        new Master(
-          "cmig/master.xml",
-          cassandra
-        ),
-        cassandra,
-        "1"
-      ).value(),
-      new IsEqual<>(
-        "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
-      )
-    );
-  }
+    @Test
+    void applies() throws Exception {
+        final Cassandra cassandra = new Simple(
+            CassandraIntegration.host,
+            CassandraIntegration.CASSANDRA.getMappedPort(9042)
+        );
+        MatcherAssert.assertThat(
+            "SHA256 in right format",
+            new Preload(
+                new Master(
+                    "cmig/master.xml",
+                    cassandra
+                ),
+                cassandra,
+                "1"
+            ).value(),
+            new IsEqual<>(
+                "43b52f2f9e96905d3608f2025c0030f90efafc1d224130fb7bf1a6c1b8a9b278"
+            )
+        );
+    }
 }

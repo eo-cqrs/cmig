@@ -1,5 +1,7 @@
 /*
- *  Copyright (c) 2023 Aliaksei Bialiauski, EO-CQRS
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2023-2024 Aliaksei Bialiauski, EO-CQRS
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -19,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package io.github.eocqrs.cmig.sha;
 
 import lombok.SneakyThrows;
@@ -30,38 +31,36 @@ import ru.l3r8y.UnixizedOf;
 /**
  * Contents Of.
  *
- * @author Aliaksei Bialiauski (abialiauski.dev@gmail.com)
  * @since 0.0.0
  */
 public final class ContentsOf implements Text {
 
-  /**
-   * File name.
-   */
-  private final String file;
+    /**
+     * File name.
+     */
+    private final String file;
 
-  /**
-   * Ctor.
-   *
-   * @param name File name
-   */
-  public ContentsOf(
-    final String name
-  ) {
-    this.file = name;
-  }
+    /**
+     * Ctor.
+     *
+     * @param name File name
+     */
+    public ContentsOf(
+        final String name
+    ) {
+        this.file = name;
+    }
 
-  @SneakyThrows
-  @Override
-  public String asString() {
-    return new UnixizedOf(
-      new ResourceOf(
-        "cmig/%s"
-          .formatted(
-            this.file
-          )
-      )
-    ).asText()
-      .asString();
-  }
+    @SneakyThrows
+    @Override
+    public String asString() {
+        return new UnixizedOf(
+            new ResourceOf(
+                "cmig/%s"
+                    .formatted(
+                        this.file
+                    )
+            )
+        ).asText().asString();
+    }
 }
