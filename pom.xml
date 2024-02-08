@@ -96,7 +96,7 @@ SOFTWARE.
     <mockito-junit-jupiter.version>5.10.0</mockito-junit-jupiter.version>
     <hamcrest-core.version>2.2</hamcrest-core.version>
     <guava.version>19.0</guava.version>
-    <test-cassandra.version>1.19.4</test-cassandra.version>
+    <test-cassandra.version>1.19.5</test-cassandra.version>
     <failsafe.version>3.2.5</failsafe.version>
     <unixized.version>1.0.0</unixized.version>
     <logback-classic.version>1.4.8</logback-classic.version>
