@@ -97,7 +97,7 @@ SOFTWARE.
     <hamcrest-core.version>2.2</hamcrest-core.version>
     <guava.version>19.0</guava.version>
     <test-cassandra.version>1.19.7</test-cassandra.version>
-    <failsafe.version>3.2.5</failsafe.version>
+    <failsafe.version>3.3.0</failsafe.version>
     <unixized.version>1.0.0</unixized.version>
     <logback-classic.version>1.4.8</logback-classic.version>
     <cactoos-matchers.version>0.25</cactoos-matchers.version>
